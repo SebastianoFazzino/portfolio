@@ -3,28 +3,12 @@
     position: relative;
 }
 
-body.nav-reset nav a.nav-link::after {
-    display: none !important;
-}
-
-body.nav-reset nav a.nav-link {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-/* active underline via :target */
-body:has(#about:target) nav a[data-target="about"],
-body:has(#experience:target) nav a[data-target="experience"],
-body:has(#certifications:target) nav a[data-target="certifications"],
-body:has(#this-site:target) nav a[data-target="this-site"],
-body:has(#contact:target) nav a[data-target="contact"] {
+/* active (in-view) link */
+.nav-link.is-active {
     color: white;
 }
 
-body:has(#about:target) nav a[data-target="about"]::after,
-body:has(#experience:target) nav a[data-target="experience"]::after,
-body:has(#certifications:target) nav a[data-target="certifications"]::after,
-body:has(#this-site:target) nav a[data-target="this-site"]::after,
-body:has(#contact:target) nav a[data-target="contact"]::after {
+.nav-link.is-active::after {
     content: "";
     position: absolute;
     left: 0;

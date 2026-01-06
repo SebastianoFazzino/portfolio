@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Section } from "@/components/Section";
+import {ContactModal} from "@/components/ContactModal";
+import {Section} from "@/components/Section";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export default function Home() {
             <Section>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h2>Who I am</h2>
+                        <h2>Who am I</h2>
 
                         <p className="mt-6 max-w-2xl">
                             Senior software engineer focused on designing and operating systems
@@ -34,8 +35,8 @@ export default function Home() {
                         <Image
                             src="/images/profile.jpg"
                             alt="Sebastiano Fazzino profile picture"
-                            width={240}
-                            height={260}
+                            width={200}
+                            height={240}
                             className="grayscale object-cover"
                             priority
                         />
@@ -80,7 +81,7 @@ export default function Home() {
                     <div>
                         <h3>Software Engineer — Crypto</h3>
                         <p className="mt-2 text-sm text-white/50">
-                            Backend · Java · Kafka · MongoDB · PostgreSQL · Cloud platforms
+                            Backend · Java · Kafka · MongoDB · PostgreSQL · GCP · Docker · Kubernetes
                         </p>
                         <p className="mt-4">
                             Built and evolved services integrating with external systems, handling
@@ -94,8 +95,8 @@ export default function Home() {
                 <h2>Certifications</h2>
 
                 <ul className="mt-6 space-y-3 max-w-2xl text-white/70">
-                    <li>Java Programming and Software Engineering — Duke University</li>
                     <li>Developing Applications with Google Cloud — Google</li>
+                    <li>Java Programming and Software Engineering — Duke University</li>
                 </ul>
 
                 <h4 className="mt-10 text-white/50 text-sm uppercase tracking-wide">
@@ -125,23 +126,66 @@ export default function Home() {
                 </p>
             </Section>
 
-            <Section id="contact">
-                <div id="contact" className="scroll-mt-24" />
-                <h2>Contact</h2>
+            <Section id="connect">
+                <div className="pb-40">
+                    <h2>Connect</h2>
 
-                <p className="mt-6 max-w-3xl">
-                    If you’d like to get in touch to discuss engineering work, systems design,
-                    or collaboration opportunities, feel free to reach out.
-                </p>
+                    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl">
+                        {/* Left: presence */}
+                        <div>
+                            <p className="text-white/70 max-w-md">
+                                You can find me online or reach out directly.
+                                I’m always open to thoughtful conversations around engineering,
+                                systems, and collaboration.
+                            </p>
 
-                <p className="mt-4 max-w-3xl">
-                    This site includes a server-side contact form to avoid exposing personal
-                    email addresses publicly.
-                </p>
+                            <div className="mt-6 flex flex-col gap-3 text-sm">
+                                <a
+                                    href="https://www.linkedin.com/in/sebastiano-fazzino/"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="group inline-flex items-center gap-2 text-white/60 hover:text-white"
+                                >
+                                    <span className="text-white/40 group-hover:text-white/60">→</span>
+                                    LinkedIn
+                                </a>
 
-                <p className="mt-6 text-sm text-white/50">
-                    Contact form coming next.
-                </p>
+                                <a
+                                    href="https://github.com/SebastianoFazzino"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="group inline-flex items-center gap-2 text-white/60 hover:text-white"
+                                >
+                                    <span className="text-white/40 group-hover:text-white/60">→</span>
+                                    GitHub
+                                </a>
+                            </div>
+
+                            <div className="mt-10 max-w-md">
+                                <p className="mt-4 text-sm text-white/70">
+                                    I value thoughtful engineering, and keeping things as simple as they can be.
+                                </p>
+                                <p className="mt-4 text-sm text-white/50">
+                                    If that aligns with how you work, feel free to get in touch.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Right: action */}
+                        <div className="border border-white/10 rounded-lg p-6 bg-black/40">
+                            <h3 className="text-lg font-semibold">Send a message</h3>
+
+                            <p className="mt-2 text-sm text-white/50 max-w-sm">
+                                If you prefer a direct message, you can send one here.
+                                It goes straight to my inbox.
+                            </p>
+
+                            <div className="mt-6">
+                                <ContactModal />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </Section>
         </>
     );
