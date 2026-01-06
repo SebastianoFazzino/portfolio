@@ -1,5 +1,10 @@
 import Image from "next/image";
 import { Section } from "@/components/Section";
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: "Sebastiano Fazzino — Software Engineer"
+};
 
 export default function Home() {
     return (

@@ -5,8 +5,9 @@ import "./nav.css";
 import React from "react";
 
 function scrollToTop() {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+    document.body.classList.add("nav-reset");
     window.scrollTo({ top: 0, behavior: "smooth" });
-    history.replaceState(null, "", window.location.pathname);
 }
 
 export default function RootLayout(

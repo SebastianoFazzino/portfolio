@@ -3,6 +3,14 @@
     position: relative;
 }
 
+body.nav-reset nav a.nav-link::after {
+    display: none !important;
+}
+
+body.nav-reset nav a.nav-link {
+    color: rgba(255, 255, 255, 0.6);
+}
+
 /* active underline via :target */
 body:has(#about:target) nav a[data-target="about"],
 body:has(#experience:target) nav a[data-target="experience"],
