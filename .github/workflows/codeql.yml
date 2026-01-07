@@ -1,0 +1,49 @@
+name: CodeQL
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/codeql.yml"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "apps/web/**"
+      - ".github/workflows/codeql.yml"
+  schedule:
+    - cron: "30 2 1 * *" # monthly, 02:30 UTC on the 1st
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze (JavaScript/TypeScript)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install deps (web)
+        working-directory: apps/web
+        run: npm ci
+
+      - name: Build (web)
+        working-directory: apps/web
+        run: npm run build
+
+      - uses: github/codeql-action/analyze@v3

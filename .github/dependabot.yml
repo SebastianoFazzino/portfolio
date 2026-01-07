@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Frontend (apps/web)
+  - package-ecosystem: "npm"
+    directory: "/apps/web"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+        patterns: ["*"]
+    labels: ["deps", "frontend"]
+    target-branch: "main"
+
+  # GitHub Actions (CI)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      gha:
+        patterns: ["*"]
+    labels: ["deps", "ci"]
+    target-branch: "main"
