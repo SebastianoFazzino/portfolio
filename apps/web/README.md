@@ -37,6 +37,51 @@ The UI is intentionally quiet and avoids animations or visual noise.
 
 ---
 
+## End-to-end testing
+
+The project includes **end-to-end tests** implemented with **Playwright**.
+
+The goal of the test suite is not exhaustive coverage, but **high-signal guarantees** that critical user-facing behavior remains intact.
+
+### What is tested
+
+- Homepage loads successfully
+- No console errors occur on initial render
+- Primary navigation buttons scroll to the correct sections
+- The main call-to-action (“Connect”) behaves correctly
+- Core interactions work across browsers (Chromium, WebKit, mobile Safari where enabled)
+
+Tests are written to reflect **real user behavior**, not implementation details:
+- No CSS selectors or class names are asserted
+- Elements are located by role, accessible name, or semantic structure
+- Tests avoid timing-based assumptions and brittle waits
+
+### Philosophy
+
+The test suite is intentionally small and focused:
+
+- Tests validate *outcomes*, not animations or layout details
+- Scroll and navigation behavior is verified in a cross-browser-safe way
+- The suite is designed to be boring, fast, and reliable
+
+If a test fails, it should indicate a real regression rather than a cosmetic change.
+
+### Running tests locally
+
+From the `apps/web` directory:
+
+```bash
+npx playwright test
+```
+
+To run tests interactively with the Playwright UI:
+
+```bash
+npx playwright test --ui
+```
+
+---
+
 ## Contact form
 
 The site includes a server-side contact form.
@@ -50,7 +95,7 @@ The site includes a server-side contact form.
 
 The following environment variables are required:
 
-```
+```bash
 BREVO_API_KEY=
 CONTACT_FROM_EMAIL=
 CONTACT_TO_EMAIL=
