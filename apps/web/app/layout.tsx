@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             <footer className="border-t border-white/10">
                 <div className="max-w-5xl mx-auto px-6 py-8 text-sm text-white/50">
-                    © {new Date().getFullYear()} — Built & hosted on my own infrastructure
+                    © {new Date().getFullYear()} — Built & hosted on my home server.
                 </div>
             </footer>
         </div>
