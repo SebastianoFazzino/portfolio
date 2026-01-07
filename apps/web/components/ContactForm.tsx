@@ -1,9 +1,19 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export function ContactForm() {
     const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
+    useEffect(() => {
+        if (status === "sent" || status === "error") {
+            const timeout = setTimeout(() => {
+                setStatus("idle");
+            }, 2000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [status]);
 
     async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();

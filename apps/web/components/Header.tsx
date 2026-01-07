@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import {NavButton} from "@/components/NavButton";
 
 const sectionIds = ["about", "experience", "certifications", "this-site", "connect"] as const;
 
@@ -66,36 +67,31 @@ export function Header() {
                 </button>
 
                 <nav className="flex gap-6 text-sm tracking-wide text-white/60">
-                    <a
-                        href="#about"
-                        className={`nav-link ${activeSectionId === "about" ? "is-active" : ""}`}
-                    >
-                        About
-                    </a>
-                    <a
-                        href="#experience"
-                        className={`nav-link ${activeSectionId === "experience" ? "is-active" : ""}`}
-                    >
-                        Experience
-                    </a>
-                    <a
-                        href="#certifications"
-                        className={`nav-link ${activeSectionId === "certifications" ? "is-active" : ""}`}
-                    >
-                        Certifications
-                    </a>
-                    <a
-                        href="#this-site"
-                        className={`nav-link ${activeSectionId === "this-site" ? "is-active" : ""}`}
-                    >
-                        This site
-                    </a>
-                    <a
-                        href="#connect"
-                        className={`nav-link ${activeSectionId === "connect" ? "is-active" : ""}`}
-                    >
-                        Connect
-                    </a>
+                    <NavButton
+                        label="About"
+                        targetId="about"
+                        isActive={activeSectionId === "about"}
+                    />
+                    <NavButton
+                        label="Experience"
+                        targetId="experience"
+                        isActive={activeSectionId === "experience"}
+                    />
+                    <NavButton
+                        label="Certifications"
+                        targetId="certifications"
+                        isActive={activeSectionId === "certifications"}
+                    />
+                    <NavButton
+                        label="This site"
+                        targetId="this-site"
+                        isActive={activeSectionId === "this-site"}
+                    />
+                    <NavButton
+                        label="Connect"
+                        targetId="connect"
+                        isActive={activeSectionId === "connect"}
+                    />
                 </nav>
             </div>
         </header>

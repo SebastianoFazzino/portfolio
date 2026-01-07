@@ -139,7 +139,7 @@ export default function Home() {
                                 systems, and collaboration.
                             </p>
 
-                            <div className="mt-6 flex flex-col gap-3 text-sm">
+                            <div className="mt-6 flex flex-col gap-3">
                                 <a
                                     href="https://www.linkedin.com/in/sebastiano-fazzino/"
                                     target="_blank"
