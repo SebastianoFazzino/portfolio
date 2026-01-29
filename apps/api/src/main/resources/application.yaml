@@ -1,0 +1,78 @@
+server:
+  port: 9909
+  forward-headers-strategy: framework
+  servlet:
+    context-path: /api
+
+spring:
+  jmx:
+    enabled: false
+  application:
+    name: portfolio-api
+  config:
+    import: optional:file:apps/api/.env[.properties]
+  profiles:
+    active: ${ACTIVE_PROFILE:}
+
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      connection-timeout: 20000
+      idle-timeout: 300000
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        implicit-strategy: org.springframework.boot.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate:
+        show_sql: false
+        default_schema: portfolio
+    show-sql: false
+    open-in-view: true
+
+  flyway:
+    enabled: true
+    clean-disabled: false
+    locations: classpath:db/migration
+    schemas: portfolio
+    default-schema: portfolio
+    baseline-on-migrate: true
+    baseline-version: 0
+
+  jackson:
+    date-format: "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+    deserialization:
+      fail-on-unknown-properties: false
+    mapper:
+      accept-case-insensitive-enums: true
+
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - https://portfolio.sfazzino.com
+
+contact:
+  brevo:
+    api-key: ${BREVO_API_KEY:}
+    to-email: ${CONTACT_TO_EMAIL:}
+    from-email: ${CONTACT_FROM_EMAIL:}
+    from-name: ${CONTACT_FROM_NAME}
+  rate-limit:
+    window-ms: ${CONTACT_RATE_LIMIT_WINDOW_MS:60000}
+    max-requests: ${CONTACT_RATE_LIMIT_MAX:5}
+
+logging:
+  level:
+    org.hibernate.orm.connections.pooling: WARN
+    sun:
+      rmi:
+        transport:
+          tcp: ERROR
