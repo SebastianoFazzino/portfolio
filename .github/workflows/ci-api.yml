@@ -24,11 +24,17 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: "21"
           cache: gradle
 
+      - name: Make Gradle wrapper executable
+        working-directory: apps/api
+        run: chmod +x gradlew
+
       - name: Build
-        run: ./gradlew -p apps/api build
+        working-directory: apps/api
+        run: ./gradlew build
 
       - name: Run tests
-        run: ./gradlew -p apps/api test
+        working-directory: apps/api
+        run: ./gradlew test

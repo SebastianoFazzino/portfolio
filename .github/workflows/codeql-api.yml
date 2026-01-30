@@ -18,6 +18,7 @@ on:
 jobs:
   analyze:
     name: Analyze (Java/Kotlin)
+    if: vars.ENABLE_CODEQL == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
