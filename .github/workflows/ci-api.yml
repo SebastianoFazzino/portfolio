@@ -1,0 +1,34 @@
+name: API – Build & Test
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/ci-api.yml"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/ci-api.yml"
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Build
+        run: ./gradlew -p apps/api build
+
+      - name: Run tests
+        run: ./gradlew -p apps/api test
