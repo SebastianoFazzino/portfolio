@@ -51,7 +51,7 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 
 	testImplementation("org.mockito:mockito-core")
-	testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
