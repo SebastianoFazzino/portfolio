@@ -1,0 +1,46 @@
+name: CodeQL – API
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/codeql-api.yml"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/codeql-api.yml"
+  schedule:
+    - cron: "45 2 1 * *" # monthly, 02:45 UTC on the 1st
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    name: Analyze (Java/Kotlin)
+    if: vars.ENABLE_CODEQL == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: java-kotlin
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Build (api)
+        run: ./gradlew -p apps/api build -x test
+
+      - uses: github/codeql-action/analyze@v4

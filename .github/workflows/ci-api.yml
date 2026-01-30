@@ -1,0 +1,40 @@
+name: API – Build & Test
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/ci-api.yml"
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/ci-api.yml"
+
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+
+      - name: Make Gradle wrapper executable
+        working-directory: apps/api
+        run: chmod +x gradlew
+
+      - name: Build
+        working-directory: apps/api
+        run: ./gradlew build -x test
+
+      - name: Run tests
+        working-directory: apps/api
+        run: ./gradlew test
