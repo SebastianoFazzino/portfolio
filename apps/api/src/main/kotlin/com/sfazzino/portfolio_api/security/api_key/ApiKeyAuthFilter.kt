@@ -22,7 +22,7 @@ class ApiKeyAuthFilter(
 
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
         val method = request.method
-        val path = request.servletPath
+        val path = request.requestURI.removePrefix(request.contextPath ?: "")
         return method == "OPTIONS" || (method == "GET" && path == "/healthz")
     }
 

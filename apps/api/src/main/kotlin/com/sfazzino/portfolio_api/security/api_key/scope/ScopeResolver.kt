@@ -7,7 +7,7 @@ object ScopeResolver {
   const val CONTACT_WRITE = "contact:write"
 
   fun requiredScope(request: HttpServletRequest): String? {
-    val path = request.servletPath
+    val path = request.requestURI.removePrefix(request.contextPath ?: "")
     val method = request.method.uppercase()
 
     // public

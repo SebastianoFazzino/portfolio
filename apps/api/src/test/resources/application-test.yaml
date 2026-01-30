@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.default_schema: portfolio
+  output:
+    ansi:
+      enabled: always
+
+contact:
+  brevo:
+    api-key: k3y9f8s2-1a7b-4c6d-9e2f-4b1c8d7e5a0z
+    to-email: test-to@example.com
+    from-email: test-from@example.com
+    from-name: Test Sender
+  rate-limit:
+    window-ms: 60000
+    max-requests: 5
