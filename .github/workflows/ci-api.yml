@@ -33,7 +33,7 @@ jobs:
 
       - name: Build
         working-directory: apps/api
-        run: ./gradlew build
+        run: ./gradlew build -x test
 
       - name: Run tests
         working-directory: apps/api
