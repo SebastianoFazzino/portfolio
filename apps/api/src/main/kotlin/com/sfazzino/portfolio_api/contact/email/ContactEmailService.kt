@@ -1,5 +1,7 @@
-package com.sfazzino.portfolio_api.contact
+package com.sfazzino.portfolio_api.contact.email
 
+import com.sfazzino.portfolio_api.exception.ApplicationException.Companion.internalServerError
+import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
@@ -11,7 +13,9 @@ class ContactEmailService(
   private val client = RestClient.create("https://api.brevo.com")
 
   fun send(name: String, email: String, message: String, ip: String): Boolean {
-    if (props.apiKey.isBlank() || props.toEmail.isBlank() || props.fromEmail.isBlank()) return false
+    if (props.apiKey.isBlank() || props.toEmail.isBlank() || props.fromEmail.isBlank()) {
+      throw internalServerError("Email service is not properly configured")
+    }
 
     val payload = mapOf(
       "sender" to mapOf("name" to props.fromName, "email" to props.fromEmail),
@@ -37,8 +41,13 @@ class ContactEmailService(
         .toBodilessEntity()
 
       res.statusCode.is2xxSuccessful
-    } catch (_: Exception) {
+    } catch (e: Exception) {
+      log.error("Failed to send contact email via Brevo", e)
       false
     }
+  }
+
+  companion object {
+    private val log = LoggerFactory.getLogger(ContactEmailService::class.java)
   }
 }

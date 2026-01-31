@@ -1,5 +1,6 @@
 package com.sfazzino.portfolio_api.contact
 
+import com.sfazzino.portfolio_api.contact.email.ContactEmailService
 import com.sfazzino.portfolio_api.contact.moderation.ModerationDecision
 import com.sfazzino.portfolio_api.contact.moderation.ModerationService
 import com.sfazzino.portfolio_api.exception.ApplicationException
@@ -64,21 +65,21 @@ class ContactServiceTest {
   @Test
   fun `moderation blocks - returns OK and does not send email`() {
     whenever(rateLimiter.allow("1.2.3.4")).thenReturn(true)
-    whenever(moderationService.check(message = "hello")).thenReturn(
-      ModerationDecision.block("nope")
+    whenever(moderationService.check(message = "SELECT * FROM users")).thenReturn(
+      ModerationDecision.block("injection")
     )
 
     val dto = ContactRequest(
       name = " Seb ",
       email = " seb@example.com ",
-      message = " hello ",
+      message = "SELECT * FROM users",
       website = null
     )
 
-    assertDoesNotThrow { service.handle(dto) }
+    assertThrows(ApplicationException::class.java) { service.handle(dto) }
 
     verify(rateLimiter).allow("1.2.3.4")
-    verify(moderationService).check(message = "hello")
+    verify(moderationService).check(message = "SELECT * FROM users")
     verify(emailService, never()).send(any(), any(), any(), any())
   }
 

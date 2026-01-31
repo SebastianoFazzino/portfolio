@@ -1,6 +1,7 @@
 package com.sfazzino.portfolio_api.contact
 
 import com.sfazzino.portfolio_api.TestcontainersConfiguration
+import com.sfazzino.portfolio_api.contact.email.ContactEmailService
 import com.sfazzino.portfolio_api.exception.ErrorCodes.EXPIRED_API_KEY
 import com.sfazzino.portfolio_api.exception.ErrorCodes.MISSING_API_KEY
 import com.sfazzino.portfolio_api.security.api_key.ApiKey

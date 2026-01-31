@@ -1,5 +1,6 @@
 package com.sfazzino.portfolio_api.contact
 
+import com.sfazzino.portfolio_api.contact.email.ContactEmailService
 import com.sfazzino.portfolio_api.contact.moderation.ModerationService
 import com.sfazzino.portfolio_api.exception.ApplicationException
 import com.sfazzino.portfolio_api.security.rate_limiter.ClientIpResolver
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class ContactService(
-  private val request: HttpServletRequest,
-  private val rateLimiter: IpRateLimiter,
-  private val moderationService: ModerationService,
-  private val emailService: ContactEmailService,
+    private val request: HttpServletRequest,
+    private val rateLimiter: IpRateLimiter,
+    private val moderationService: ModerationService,
+    private val emailService: ContactEmailService,
 ) {
 
   fun handle(dto: ContactRequest) {
@@ -32,7 +33,7 @@ class ContactService(
 
     val decision = moderationService.check(message = message)
     if (!decision.allowed) {
-      return
+      throw ApplicationException.contactRejected(message = decision.reason)
     }
 
     val ok = emailService.send(name = name, email = email, message = message, ip = ip)

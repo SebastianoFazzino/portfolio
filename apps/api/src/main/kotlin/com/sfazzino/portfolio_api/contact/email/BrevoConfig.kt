@@ -1,4 +1,4 @@
-package com.sfazzino.portfolio_api.contact
+package com.sfazzino.portfolio_api.contact.email
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

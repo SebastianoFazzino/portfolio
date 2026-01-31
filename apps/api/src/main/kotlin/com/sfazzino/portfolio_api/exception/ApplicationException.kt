@@ -45,11 +45,11 @@ class ApplicationException(
         logLevel = LogLevel.WARN
       )
 
-    fun contactRejected(message: String = "Message rejected") =
+    fun contactRejected(message: String?) =
       ApplicationException(
         httpStatus = HttpStatus.BAD_REQUEST,
         errorCode = ErrorCodes.CONTACT_REJECTED,
-        message = message,
+        message = "Message rejected" + (message?.let { ": $it" } ?: ""),
         logLevel = LogLevel.WARN
       )
 

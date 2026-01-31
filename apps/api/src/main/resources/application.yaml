@@ -68,6 +68,12 @@ contact:
   rate-limit:
     window-ms: ${CONTACT_RATE_LIMIT_WINDOW_MS:60000}
     max-requests: ${CONTACT_RATE_LIMIT_MAX:5}
+  moderation:
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      model: ${OLLAMA_MODEL:llama3.2:1b}
+      max-tokens: ${OLLAMA_MAX_TOKENS:128}
+      prompt-path: classpath:prompts/contact_moderation_v1.txt
 
 logging:
   level:

@@ -1,5 +1,7 @@
-package com.sfazzino.portfolio_api.contact.moderation
+package com.sfazzino.portfolio_api.contact.moderation.llm
 
+import com.sfazzino.portfolio_api.contact.moderation.ModerationDecision
+import com.sfazzino.portfolio_api.contact.moderation.ModerationService
 import org.springframework.stereotype.Service
 
 @Service
