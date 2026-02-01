@@ -66,41 +66,59 @@ The test suite is intentionally small and focused:
 
 If a test fails, it should indicate a real regression rather than a cosmetic change.
 
-### Running tests locally
-
-From the `apps/web` directory:
-
-```bash
-npx playwright test
-```
-
-To run tests interactively with the Playwright UI:
-
-```bash
-npx playwright test --ui
-```
-
 ---
 
 ## Contact form
 
-The site includes a server-side contact form.
+The site includes a **server-mediated contact form** designed with security and moderation in mind.
 
-- Messages are sent via **Brevo** (transactional email API)
-- Email sending is handled on the server only
-- No API keys or secrets are exposed to the client
-- Basic spam protection (honeypot + rate limiting)
+### High-level flow
 
-### Environment variables
+Browser  
+→ Next.js API route (`/api/contact`)  
+→ Backend service  
+- message moderation  
+- rate limiting  
+- email delivery  
 
-The following environment variables are required:
+### Responsibilities
+
+#### Frontend (Next.js)
+- Collects user input
+- Submits the form to a server-side API route
+- Displays success or error messages returned by the server
+- Never communicates directly with third-party services
+- Never has access to secrets or API keys
+
+#### Backend service
+- Performs **message moderation**
+- Enforces **rate limiting**
+- Sends transactional emails
+- Applies validation and rejection rules
+- Acts as the single source of truth for abuse prevention
+
+### Security properties
+
+- No API keys or secrets are exposed to the browser
+- The frontend only talks to its own API route
+- All sensitive logic runs server-side
+- Client IP resolution and rate limiting are handled by the backend
+- Honeypot protection is applied before forwarding requests
+
+The frontend API route acts strictly as a **controlled boundary**, not as a business logic layer.
+
+---
+
+## Environment variables
+
+The frontend requires the following environment variables to communicate with the backend service:
 
 ```bash
-BREVO_API_KEY=
-CONTACT_FROM_EMAIL=
-CONTACT_TO_EMAIL=
-CONTACT_FROM_NAME=
+BACKEND_BASE_URL=
+API_KEY=
 ```
+
+These values are used **only on the server** and are never exposed to client-side JavaScript.
 
 A `.env.example` file is provided. Real values must be supplied via environment configuration and are not committed to the repository.
 
@@ -111,7 +129,10 @@ A `.env.example` file is provided. Real values must be supplied via environment 
 - No client-side form submission directly to third-party services
 - All external integrations go through server-side route handlers
 - Secrets are managed exclusively via environment variables
+- Backend concerns (moderation, rate limiting, delivery) are intentionally centralized
 - The project is suitable for self-hosting or deployment on any Node-compatible platform
+
+The frontend remains intentionally thin and declarative, while the backend owns policy and enforcement.
 
 ---
 

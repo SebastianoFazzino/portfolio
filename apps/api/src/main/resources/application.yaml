@@ -67,7 +67,7 @@ contact:
     from-name: ${CONTACT_FROM_NAME}
   rate-limit:
     window-ms: ${CONTACT_RATE_LIMIT_WINDOW_MS:60000}
-    max-requests: ${CONTACT_RATE_LIMIT_MAX:5}
+    max-requests: ${CONTACT_RATE_LIMIT_MAX:10}
   moderation:
     ollama:
       base-url: ${OLLAMA_BASE_URL:http://localhost:11434}

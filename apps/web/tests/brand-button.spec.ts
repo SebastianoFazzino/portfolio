@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 test('brand button scrolls to top', async ({ page }) => {
     await page.goto('/');

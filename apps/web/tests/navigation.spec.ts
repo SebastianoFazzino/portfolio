@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
 test('main navigation scrolls to sections', async ({ page }) => {
     await page.goto('/');

@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 
 export function ContactForm() {
     const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     useEffect(() => {
         if (status === "sent" || status === "error") {
@@ -15,7 +16,7 @@ export function ContactForm() {
         }
     }, [status]);
 
-    async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function onSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
         e.preventDefault();
         setStatus("sending");
 
@@ -35,11 +36,20 @@ export function ContactForm() {
             body: JSON.stringify(payload),
         });
 
+        let responseBody: { message?: string } | null;
+
+        try {
+            responseBody = await res.json();
+        } catch {
+            responseBody = null;
+        }
+
         if (res.ok) {
             form.reset();
             setStatus("sent");
         } else {
             setStatus("error");
+            setErrorMessage(responseBody?.message ?? "Something went wrong.");
         }
     }
 
@@ -88,7 +98,7 @@ export function ContactForm() {
 
                 <p className="text-sm text-white/50">
                     {status === "sent" && "Message sent."}
-                    {status === "error" && "Something went wrong."}
+                    {status === "error" && <span className="text-red-500">{errorMessage}</span>}
                 </p>
             </div>
         </form>

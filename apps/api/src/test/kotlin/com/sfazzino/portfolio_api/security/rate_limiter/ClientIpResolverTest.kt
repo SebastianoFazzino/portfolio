@@ -15,7 +15,7 @@ class ClientIpResolverTest {
       on { remoteAddr } doReturn "9.9.9.9"
     }
 
-    val ip = ClientIpResolver.resolve(request)
+    val ip = ClientIpResolver.resolveIp(request)
 
     assertEquals("1.2.3.4", ip)
   }
@@ -27,7 +27,7 @@ class ClientIpResolverTest {
       on { remoteAddr } doReturn "9.9.9.9"
     }
 
-    val ip = ClientIpResolver.resolve(request)
+    val ip = ClientIpResolver.resolveIp(request)
 
     assertEquals("1.2.3.4", ip)
   }
@@ -39,7 +39,7 @@ class ClientIpResolverTest {
       on { remoteAddr } doReturn "9.9.9.9"
     }
 
-    val ip = ClientIpResolver.resolve(request)
+    val ip = ClientIpResolver.resolveIp(request)
 
     assertEquals("1.2.3.4", ip)
   }
@@ -51,7 +51,7 @@ class ClientIpResolverTest {
       on { remoteAddr } doReturn "9.9.9.9"
     }
 
-    val ip = ClientIpResolver.resolve(request)
+    val ip = ClientIpResolver.resolveIp(request)
 
     assertEquals("9.9.9.9", ip)
   }
@@ -63,7 +63,7 @@ class ClientIpResolverTest {
       on { remoteAddr } doReturn null
     }
 
-    val ip = ClientIpResolver.resolve(request)
+    val ip = ClientIpResolver.resolveIp(request)
 
     assertEquals("unknown", ip)
   }

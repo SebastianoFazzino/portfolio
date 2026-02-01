@@ -25,7 +25,7 @@ class ContactService(
     val email = dto.email.trim()
     val message = dto.message.trim()
 
-    val ip = ClientIpResolver.resolve(request)
+    val ip = ClientIpResolver.resolveIp(request)
 
     if (!rateLimiter.allow(ip)) {
       throw ApplicationException.tooManyRequests()
