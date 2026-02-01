@@ -60,7 +60,7 @@ export function Header() {
             <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
                 <button
                     onClick={scrollToTop}
-                    className="text-[0.9rem] tracking-[0.15rem] uppercase text-white/60 hover:text-white cursor-pointer"
+                    className="text-[0.9rem] tracking-[0.15rem] uppercase text-white/60 hover:text-(--accent) cursor-pointer"
                     aria-label="Scroll to top"
                 >
                     Sebastiano Fazzino

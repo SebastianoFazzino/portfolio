@@ -37,7 +37,7 @@ export default function Home() {
                         <div className="relative w-60 h-70 rounded-2xl overflow-hidden
                       border border-white/10 bg-white/5 shadow-sm">
                             <Image
-                                src="/images/profile2.jpg"
+                                src="/images/profile-img.jpg"
                                 alt="Sebastiano Fazzino profile picture"
                                 fill
                                 priority
