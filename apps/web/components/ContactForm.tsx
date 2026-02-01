@@ -2,15 +2,31 @@
 
 import React, {useEffect, useState} from "react";
 
-export function ContactForm() {
+type ContactFormProps = {
+    onSentAction: () => void;
+};
+
+type ContactApiResponse =
+    | { ok: true }
+    | { ok: false; errorCode?: string; message?: string };
+
+export function ContactForm({ onSentAction }: ContactFormProps) {
     const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
     const [errorMessage, setErrorMessage] = useState<string>("");
+
+    useEffect(() => {
+        if (status !== "sent") return;
+        const timeout = setTimeout(() => {
+            onSentAction();
+        }, 2000);
+        return () => clearTimeout(timeout);
+    }, [status, onSentAction]);
 
     useEffect(() => {
         if (status === "sent" || status === "error") {
             const timeout = setTimeout(() => {
                 setStatus("idle");
-            }, 2000);
+            }, 4000);
 
             return () => clearTimeout(timeout);
         }
@@ -36,10 +52,10 @@ export function ContactForm() {
             body: JSON.stringify(payload),
         });
 
-        let responseBody: { message?: string } | null;
+        let responseBody: ContactApiResponse | null;
 
         try {
-            responseBody = await res.json();
+            responseBody = (await res.json()) as ContactApiResponse;
         } catch {
             responseBody = null;
         }
@@ -49,7 +65,16 @@ export function ContactForm() {
             setStatus("sent");
         } else {
             setStatus("error");
-            setErrorMessage(responseBody?.message ?? "Something went wrong.");
+
+            const code = responseBody && "ok" in responseBody && !responseBody.ok ? responseBody.errorCode : undefined;
+
+            if (code === "contact_rejected") {
+                setErrorMessage("That message can’t be sent as written. Try rephrasing (no links, commands, or aggressive language).");
+            } else if (code === "too_many_requests") {
+                setErrorMessage("Too many attempts. Please wait a moment and try again.");
+            } else {
+                setErrorMessage(responseBody && "message" in responseBody ? responseBody.message ?? "Something went wrong." : "Something went wrong.");
+            }
         }
     }
 
@@ -68,14 +93,14 @@ export function ContactForm() {
                     name="name"
                     required
                     placeholder="Name"
-                    className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white"
+                    className="input-accent w-full rounded px-3 py-2"
                 />
                 <input
                     name="email"
                     type="email"
                     required
                     placeholder="Email"
-                    className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white"
+                    className="input-accent w-full rounded px-3 py-2"
                 />
             </div>
 
@@ -84,22 +109,38 @@ export function ContactForm() {
                 required
                 placeholder="Message"
                 rows={6}
-                className="w-full bg-black/40 border border-white/10 rounded px-3 py-2 text-white"
+                className="input-accent w-full rounded px-3 py-2"
             />
 
             <div className="flex items-center gap-4">
                 <button
                     type="submit"
                     disabled={status === "sending"}
-                    className="px-4 py-2 rounded cursor-pointer bg-white text-black disabled:opacity-50"
+                    className={`px-4 py-2 rounded text-black transition-colors cursor-pointer disabled:opacity-80 min-w-30
+                        ${status === "idle" || status === "sent" || status === "error"
+                            ? "bg-white hover:bg-(--accent) active:bg-(--accent)"
+                            : "bg-(--accent)"
+                        }
+                    `}
                 >
                     {status === "sending" ? "Sending…" : "Send"}
                 </button>
 
-                <p className="text-sm text-white/50">
+                <div className="text-sm text-white/50">
                     {status === "sent" && "Message sent."}
-                    {status === "error" && <span className="text-red-500">{errorMessage}</span>}
-                </p>
+
+                    {/* Show error */}
+                    {status === "error" && (
+                        <div className="mt-4 rounded-lg border border-rose-500/20 bg-rose-500/5 p-3 text-sm text-rose-200/80">
+                            <div className="flex items-start gap-2">
+                                <span className="text-rose-300/60">!</span>
+                                <div>
+                                    <p>{errorMessage}</p>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
             </div>
         </form>
     );

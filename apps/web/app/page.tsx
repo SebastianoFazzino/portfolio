@@ -152,9 +152,9 @@ export default function Home() {
                                     href="https://www.linkedin.com/in/sebastiano-fazzino/"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="group inline-flex items-center gap-2 text-white/60 hover:text-white"
+                                    className="group inline-flex items-center gap-2 text-white/60 hover:text-(--accent) transition-colors"
                                 >
-                                    <span className="text-white/40 group-hover:text-white/60">→</span>
+                                    <span className="text-white/40 group-hover:text-(--accent)">→</span>
                                     LinkedIn
                                 </a>
 
@@ -162,9 +162,9 @@ export default function Home() {
                                     href="https://github.com/SebastianoFazzino"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="group inline-flex items-center gap-2 text-white/60 hover:text-white"
+                                    className="group inline-flex items-center gap-2 text-white/60 hover:text-(--accent) transition-colors"
                                 >
-                                    <span className="text-white/40 group-hover:text-white/60">→</span>
+                                    <span className="text-white/40 group-hover:text-(--accent)">→</span>
                                     GitHub
                                 </a>
                             </div>

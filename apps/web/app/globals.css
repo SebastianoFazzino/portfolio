@@ -52,3 +52,26 @@ h3 {
 p {
   @apply text-base leading-relaxed text-white/70;
 }
+
+/* === Dark input focus (accent) === */
+.input-accent {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.input-accent:focus,
+.input-accent:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  background-color: var(--background);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* Avoid browser autofill / focus blue */
+.input-accent:-webkit-autofill,
+.input-accent:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--foreground);
+  -webkit-box-shadow: 0 0 0 1000px var(--background) inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
