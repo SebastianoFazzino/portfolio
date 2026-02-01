@@ -33,6 +33,9 @@ class OllamaLlmClient(
       .use { it.readText() }
       .trim()
 
+    // Ping the LLM service with a warm-up request
+    warmUp()
+
     log.info("Ollama LLM Client initialized with model='{}'", properties.model)
   }
 
@@ -79,6 +82,16 @@ class OllamaLlmClient(
 
       ${message.trim()}
     """.trimIndent()
+  }
+
+  private fun warmUp() {
+    try {
+      moderate("Hello, world!")
+      log.info("Ollama LLM warm-up completed")
+
+    } catch (error: Exception) {
+      log.warn("Ollama LLM warm-up failed", error)
+    }
   }
 
   companion object {
