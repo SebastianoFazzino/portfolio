@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.body
 import tools.jackson.databind.json.JsonMapper
+import java.util.concurrent.atomic.AtomicLong
 
 @Component
 @Profile("llm")
@@ -24,6 +25,7 @@ class OllamaLlmClient(
   private val properties: OllamaModerationProperties
 ): LlmClient {
 
+  private val lastWarmupAt = AtomicLong(0L)
   private val restClient = RestClient.create(properties.baseUrl)
 
   init {
@@ -47,6 +49,7 @@ class OllamaLlmClient(
       prompt = prompt,
       stream = false,
       format = "json",
+      keepAlive = "10m",
       options = OllamaOptions(
         temperature = 0.0,
         numPredict = properties.maxTokens
@@ -84,7 +87,13 @@ class OllamaLlmClient(
     """.trimIndent()
   }
 
-  private fun warmUp() {
+  override fun warmUp() {
+    val now = System.currentTimeMillis()
+    val last = lastWarmupAt.get()
+
+    if (now - last < properties.warmUpIntervalMs) return
+    if (!lastWarmupAt.compareAndSet(last, now)) return
+
     try {
       moderate("Hello, world!")
       log.info("Ollama LLM warm-up completed")

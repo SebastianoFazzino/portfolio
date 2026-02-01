@@ -12,34 +12,42 @@ export default function Home() {
         <>
             <Section>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    {/* Text */}
                     <div>
                         <h2>Who am I</h2>
 
-                        <p className="mt-6 max-w-2xl">
+                        <p className="mt-6 max-w-2xl text-lg">
                             Senior software engineer focused on designing and operating systems
                             that are reliable, observable, and built to last.
                         </p>
 
-                        <p className="mt-4 text-sm text-white/50 max-w-2xl">
+                        <p className="mt-4 text-sm text-white/60 max-w-2xl">
                             I work primarily on backend services, while also contributing directly
                             to frontend applications and user-facing features.
                         </p>
 
                         <p className="mt-4 text-sm text-white/50 max-w-2xl">
-                            This site is a small, personal project, a place to document how I build, think,
-                            and iterate on software.
+                            This site is a small, personal project — a place to document how I build,
+                            think, and iterate on software.
                         </p>
                     </div>
 
+                    {/* Image card */}
                     <div className="flex justify-start md:justify-end">
-                        <Image
-                            src="/images/profile.jpg"
-                            alt="Sebastiano Fazzino profile picture"
-                            width={200}
-                            height={240}
-                            className="grayscale object-cover"
-                            priority
-                        />
+                        <div className="relative w-60 h-70 rounded-2xl overflow-hidden
+                      border border-white/10 bg-white/5 shadow-sm">
+                            <Image
+                                src="/images/profile2.jpg"
+                                alt="Sebastiano Fazzino profile picture"
+                                fill
+                                priority
+                                className="object-cover contrast-105 brightness-95 saturation-90"
+                            />
+
+                            {/* subtle grounding gradient */}
+                            <div className="absolute inset-0 bg-linear-to-t
+                        from-black/30 via-transparent to-transparent" />
+                        </div>
                     </div>
                 </div>
             </Section>

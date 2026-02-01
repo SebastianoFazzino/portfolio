@@ -3,6 +3,7 @@ package com.sfazzino.portfolio_api.security
 import com.sfazzino.portfolio_api.common.AppController
 import com.sfazzino.portfolio_api.contact.ContactController
 import com.sfazzino.portfolio_api.contact.ContactService
+import com.sfazzino.portfolio_api.contact.moderation.llm.MockLlmClient
 import com.sfazzino.portfolio_api.security.api_key.ApiKey
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyAuthFilter
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyAuthFilter.Companion.API_KEY_HEADER
@@ -25,7 +26,7 @@ import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import java.time.Instant
 
-@WebMvcTest(controllers = [AppController::class, ContactController::class])
+@WebMvcTest(controllers = [AppController::class, ContactController::class, MockLlmClient::class])
 @Import(WebSecurityConfig::class, ApiKeyAuthFilter::class)
 class SecuritySmokeTest {
 

@@ -7,5 +7,6 @@ data class OllamaModerationProperties(
   val baseUrl: String,
   val model: String,
   val maxTokens: Int,
-  val promptPath: String
+  val promptPath: String,
+  val warmUpIntervalMs: Long,
 )

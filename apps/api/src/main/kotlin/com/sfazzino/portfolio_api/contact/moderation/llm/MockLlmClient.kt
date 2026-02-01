@@ -11,4 +11,6 @@ class MockLlmClient : LlmClient {
   override fun moderate(message: String): ModerationDecision {
     return ModerationDecision.allow()
   }
+
+  override fun warmUp() {}
 }
