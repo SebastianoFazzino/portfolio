@@ -3,9 +3,9 @@ package com.sfazzino.portfolio_api.security.api_key
 import com.sfazzino.portfolio_api.exception.ErrorCodes.EXPIRED_API_KEY
 import com.sfazzino.portfolio_api.exception.ErrorCodes.INVALID_API_KEY
 import com.sfazzino.portfolio_api.exception.ErrorCodes.MISSING_API_KEY
-import com.sfazzino.portfolio_api.security.api_key.ApiKeyHasher.hash
 import com.sfazzino.portfolio_api.security.api_key.scope.ScopeChecker
 import com.sfazzino.portfolio_api.security.api_key.scope.ScopeResolver
+import com.sfazzino.portfolio_api.security.crypto.CryptoUtil.hash
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

@@ -1,11 +1,11 @@
 package com.sfazzino.portfolio_api.security.api_key.bootstrap
 
 import com.sfazzino.portfolio_api.security.api_key.ApiKey
-import com.sfazzino.portfolio_api.security.api_key.ApiKeyHasher.hash
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyRepository
 import com.sfazzino.portfolio_api.security.api_key.scope.ScopeResolver.ADMIN_ALL
 import com.sfazzino.portfolio_api.security.api_key.scope.ScopeResolver.CONTACT
 import com.sfazzino.portfolio_api.security.api_key.scope.ScopeResolver.PING
+import com.sfazzino.portfolio_api.security.crypto.CryptoUtil.hash
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ApplicationArguments
@@ -25,7 +25,6 @@ class InitialApiKeysSetup(
     @Transactional
     override fun run(args: ApplicationArguments) {
         if (apiKeyRepository.count() > 0L) {
-            log.info("API keys already present, skipping bootstrap")
             return
         }
 

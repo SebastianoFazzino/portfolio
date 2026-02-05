@@ -74,13 +74,15 @@ contact:
   rate-limit:
     window-ms: ${CONTACT_RATE_LIMIT_WINDOW_MS:60000}
     max-requests: ${CONTACT_RATE_LIMIT_MAX:10}
-  moderation:
-    ollama:
-      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
-      model: ${OLLAMA_MODEL:llama3.2:1b}
-      max-tokens: ${OLLAMA_MAX_TOKENS:128}
-      warm-up-interval-ms: ${OLLAMA_WARMUP_INTERVAL:300000}
-      prompt-path: classpath:prompts/contact_moderation_v1.txt
+
+llm:
+  ollama:
+    base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+    moderation-model: ${OLLAMA_MODEL:llama3.2:1b}
+    rag-embedding-model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
+    max-tokens: ${OLLAMA_MAX_TOKENS:128}
+    warm-up-interval-ms: ${OLLAMA_WARMUP_INTERVAL:300000}
+    contact-prompt-path: classpath:prompts/contact_moderation_v1.txt
 
 logging:
   level:

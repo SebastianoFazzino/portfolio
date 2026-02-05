@@ -53,6 +53,22 @@ class ApplicationException(
         logLevel = LogLevel.WARN
       )
 
+    fun emptyFile(message: String = "Uploaded file is empty"): ApplicationException =
+      ApplicationException(
+        httpStatus = HttpStatus.BAD_REQUEST,
+        errorCode = ErrorCodes.EMPTY_FILE,
+        message = message,
+        logLevel = LogLevel.WARN
+      )
+
+    fun invalidFile(message: String? = "Invalid file"): ApplicationException =
+      ApplicationException(
+        httpStatus = HttpStatus.BAD_REQUEST,
+        errorCode = ErrorCodes.INVALID_FILE,
+        message = message ?: "Invalid file",
+        logLevel = LogLevel.WARN
+      )
+
     fun notFound(message: String = "Resource not found") =
       ApplicationException(
         httpStatus = HttpStatus.NOT_FOUND,

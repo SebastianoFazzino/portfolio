@@ -1,4 +1,4 @@
-package com.sfazzino.portfolio_api.contact.moderation.llm
+package com.sfazzino.portfolio_api.llm
 
 import com.sfazzino.portfolio_api.contact.moderation.ModerationDecision
 import com.sfazzino.portfolio_api.contact.moderation.ModerationService

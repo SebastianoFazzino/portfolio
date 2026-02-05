@@ -1,6 +1,6 @@
 package com.sfazzino.portfolio_api.common
 
-import com.sfazzino.portfolio_api.contact.moderation.llm.LlmClient
+import com.sfazzino.portfolio_api.llm.LlmClient
 import org.springframework.boot.info.BuildProperties
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
