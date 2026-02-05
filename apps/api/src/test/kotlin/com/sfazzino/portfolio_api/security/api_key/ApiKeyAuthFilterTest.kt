@@ -128,7 +128,7 @@ class ApiKeyAuthFilterTest {
     filter.doFilter(req, res, chain)
 
     assertEquals(403, res.status)
-    assertEquals("""{"error":"forbidden","required_scope":"contact:write"}""", res.contentAsString)
+    assertEquals("""{"error":"forbidden","required_scope":"contact:*"}""", res.contentAsString)
 
     verify(chain, never()).doFilter(any(), any())
     assertNull(SecurityContextHolder.getContext().authentication)
@@ -143,7 +143,7 @@ class ApiKeyAuthFilterTest {
       ApiKey(
         key = hashed,
         client = "client-123",
-        scopes = setOf("contact:write", "health:read"),
+        scopes = setOf("contact:*", "health:read"),
         expiresAt = Instant.now().plusSeconds(3600)
       )
     )
@@ -160,6 +160,6 @@ class ApiKeyAuthFilterTest {
     assertEquals("client-123", auth?.name)
 
     val authorities = auth?.authorities?.map { it.authority }?.toSet()
-    assertEquals(setOf("SCOPE_contact:write", "SCOPE_health:read"), authorities)
+    assertEquals(setOf("SCOPE_contact:*", "SCOPE_health:read"), authorities)
   }
 }

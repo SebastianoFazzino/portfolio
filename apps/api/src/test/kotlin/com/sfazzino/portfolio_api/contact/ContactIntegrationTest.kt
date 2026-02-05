@@ -64,7 +64,7 @@ class ContactIntegrationTest {
       ApiKey(
         key = hashed,
         client = "integration-test",
-        scopes = setOf("contact:write"),
+        scopes = setOf("contact:*"),
         expiresAt = Instant.now().plusSeconds(3600),
       )
     )
@@ -100,7 +100,7 @@ class ContactIntegrationTest {
     }.andExpect {
       status { isForbidden() }
       jsonPath("$.error") { value("forbidden") }
-      jsonPath("$.required_scope") { value("contact:write") }
+      jsonPath("$.required_scope") { value("contact:*") }
     }
   }
 

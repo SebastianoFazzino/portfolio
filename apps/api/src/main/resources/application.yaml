@@ -59,6 +59,12 @@ cors:
     - http://localhost:3000
     - https://portfolio.sfazzino.com
 
+security:
+  bootstrap:
+    api-keys:
+      admin: ${ADMIN_API_KEY:}
+      client: ${CLIENT_API_KEY:}
+
 contact:
   brevo:
     api-key: ${BREVO_API_KEY:}

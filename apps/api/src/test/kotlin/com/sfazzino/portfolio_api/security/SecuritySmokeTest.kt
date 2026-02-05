@@ -78,7 +78,7 @@ class SecuritySmokeTest {
       ApiKey(
         key = hashed,
         client = "test-client",
-        scopes = setOf("contact:write"),
+        scopes = setOf("contact:*"),
         expiresAt = Instant.now().plusSeconds(3600)
       )
     )
