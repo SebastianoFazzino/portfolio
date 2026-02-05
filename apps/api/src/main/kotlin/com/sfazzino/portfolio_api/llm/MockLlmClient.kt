@@ -16,5 +16,9 @@ class MockLlmClient : LlmClient {
     return FloatArray(768) { 0.0f }
   }
 
+  override fun generate(prompt: String): String {
+    return "Lorem ipsum"
+  }
+
   override fun warmUp() {}
 }

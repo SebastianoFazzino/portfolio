@@ -42,28 +42,14 @@ class OllamaLlmClient(
   override fun moderate(message: String): ModerationDecision {
     val prompt = composePrompt(message)
 
-    val request = OllamaGenerateRequest(
-      model = properties.moderationModel,
-      prompt = prompt,
-      stream = false,
-      format = "json",
-      keepAlive = "10m",
-      options = OllamaOptions(
-        temperature = 0.0,
-        numPredict = properties.maxTokens
-      )
-    )
-
     return try {
-      val response = restClient.post()
-        .uri("/api/generate")
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(request)
-        .retrieve()
-        .body<OllamaGenerateResponse>()
-        ?: return ModerationDecision.block(REASON_EMPTY_RESPONSE)
+      val rawContent = generateRawText(
+        model = properties.moderationModel,
+        prompt = prompt,
+        temperature = 0.0,
+        maxTokens = properties.maxTokens
+      )
 
-      val rawContent = response.response?.trim().orEmpty()
       if (rawContent.isEmpty()) return ModerationDecision.block(REASON_EMPTY_CONTENT)
 
       val payload = jsonMapper.readValue(rawContent, ModerationPayload::class.java)
@@ -85,6 +71,35 @@ class OllamaLlmClient(
     """.trimIndent()
   }
 
+  private fun generateRawText(
+    model: String,
+    prompt: String,
+    temperature: Double,
+    maxTokens: Int
+  ): String {
+    val request = OllamaGenerateRequest(
+      model = model,
+      prompt = prompt,
+      stream = false,
+      format = null,
+      keepAlive = "10m",
+      options = OllamaOptions(
+        temperature = temperature,
+        numPredict = maxTokens
+      )
+    )
+
+    val response = restClient.post()
+      .uri("/api/generate")
+      .contentType(MediaType.APPLICATION_JSON)
+      .body(request)
+      .retrieve()
+      .body<OllamaGenerateResponse>()
+      ?: throw unknownError("Ollama generate empty response")
+
+    return response.response?.trim().orEmpty()
+  }
+
   override fun embed(text: String): FloatArray {
     val request = OllamaEmbeddingsRequest(
       model = properties.ragEmbeddingModel,
@@ -100,6 +115,18 @@ class OllamaLlmClient(
       ?: throw unknownError("Ollama embeddings empty response")
 
     return response.embedding
+  }
+
+  override fun generate(prompt: String): String {
+    val rawText = generateRawText(
+      model = properties.ragGenerationModel,
+      prompt = prompt.trim(),
+      temperature = 0.5,
+      maxTokens = properties.maxTokens
+    )
+
+    if (rawText.isBlank()) throw unknownError("Ollama generated empty content")
+    return rawText.trim()
   }
 
   override fun warmUp() {

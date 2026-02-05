@@ -1,5 +1,6 @@
-package com.sfazzino.portfolio_api.rag
+package com.sfazzino.portfolio_api.rag.repository
 
+import com.sfazzino.portfolio_api.rag.KnowledgeChunk
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*

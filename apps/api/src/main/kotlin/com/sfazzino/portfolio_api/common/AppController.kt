@@ -15,7 +15,7 @@ class AppController(
     private val llmClient: LlmClient
 ) {
 
-    @GetMapping(value = ["healthz"])
+    @GetMapping("healthz")
     fun healthz(): ResponseEntity<HealthStatus> {
         return ResponseEntity.ok(HealthStatus(build.version ?: "N/A"))
     }

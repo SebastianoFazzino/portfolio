@@ -2,7 +2,7 @@ package com.sfazzino.portfolio_api.rag.service
 
 import com.sfazzino.portfolio_api.llm.LlmClient
 import com.sfazzino.portfolio_api.rag.KnowledgeChunk
-import com.sfazzino.portfolio_api.rag.KnowledgeChunkRepository
+import com.sfazzino.portfolio_api.rag.repository.KnowledgeChunkRepository
 import com.sfazzino.portfolio_api.security.crypto.CryptoUtil.hash
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class KnowledgeIndexService(
     private val llmClient: LlmClient,
-    private val knowledgeChunkRepository: KnowledgeChunkRepository
+    private val knowledgeRepository: KnowledgeChunkRepository
 ) {
     fun ingestText(source: String, text: String) {
         val chunks = chunkText(text)
@@ -20,13 +20,13 @@ class KnowledgeIndexService(
         chunks.forEach { chunk ->
             val contentHash = hash("$source::$chunk")
 
-            if (knowledgeChunkRepository.existsByContentHash(contentHash)) {
+            if (knowledgeRepository.existsByContentHash(contentHash)) {
                 return@forEach
             }
 
             val embedding = llmClient.embed(chunk)
 
-            knowledgeChunkRepository.save(
+            knowledgeRepository.save(
                 KnowledgeChunk(
                     source = source,
                     content = chunk,
