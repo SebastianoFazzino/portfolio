@@ -45,27 +45,69 @@ class KnowledgeIndexService(
     }
 
     private fun chunkText(text: String): List<String> {
-        val cleanedText = text.replace("\r\n", "\n").trim()
-        if (cleanedText.length <= 1200) return listOf(cleanedText)
+        val cleaned = text.replace("\r\n", "\n").trim()
+        if (cleaned.isBlank()) return emptyList()
 
-        val chunkSize = 1200
-        val overlapSize = 200
-
+        var currentSection = "General"
         val chunks = mutableListOf<String>()
-        var startIndex = 0
 
-        while (startIndex < cleanedText.length) {
-            val endIndex = (startIndex + chunkSize).coerceAtMost(cleanedText.length)
-            val chunk = cleanedText.substring(startIndex, endIndex).trim()
-            if (chunk.isNotBlank()) chunks.add(chunk)
-            if (endIndex == cleanedText.length) break
-            startIndex = (endIndex - overlapSize).coerceAtLeast(0)
+        cleaned.lines()
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+            .forEach { line ->
+                if (isTitleLine(line)) {
+                    currentSection = normalizeTitle(line)
+                    return@forEach
+                }
+
+                val normalized = "$currentSection | ${line.trim()}"
+
+                if (normalized.length <= CHUNK_SIZE) {
+                    chunks.add(normalized)
+                } else {
+                    chunks.addAll(splitWithOverlap(normalized))
+                }
+            }
+
+        return chunks
+    }
+
+    private fun isTitleLine(line: String): Boolean {
+        val s = line.trim()
+
+        // Accept both "Backend" and "Backend:" as titles
+        val candidate = s.removeSuffix(":").trim()
+        if (candidate.length !in 2..40) return false
+
+        // Titles should not look like sentences
+        if (candidate.any { it == '.' || it == '?' || it == '!' }) return false
+
+        // Titles should be mostly letters/spaces (allow & and -)
+        val allowed = candidate.all { it.isLetter() || it.isWhitespace() || it == '&' || it == '-' }
+        return allowed
+    }
+
+    private fun normalizeTitle(line: String): String {
+        return line.trim().removeSuffix(":").trim().ifBlank { "General" }
+    }
+
+    private fun splitWithOverlap(text: String): List<String> {
+        val chunks = mutableListOf<String>()
+        var start = 0
+
+        while (start < text.length) {
+            val end = (start + CHUNK_SIZE).coerceAtMost(text.length)
+            val part = text.substring(start, end).trim()
+            if (part.isNotBlank()) chunks.add(part)
+            if (end == text.length) break
+            start = (end - OVERLAP_SIZE).coerceAtLeast(0)
         }
-
         return chunks
     }
 
     companion object {
         private val log = LoggerFactory.getLogger(KnowledgeIndexService::class.java)
+        private const val CHUNK_SIZE = 800
+        private const val OVERLAP_SIZE = 100
     }
 }

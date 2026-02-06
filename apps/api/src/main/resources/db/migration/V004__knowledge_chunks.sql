@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS portfolio.knowledge_chunks (
                                                           source text NOT NULL,
                                                           content text NOT NULL,
                                                           content_hash text NOT NULL UNIQUE,
-                                                          embedding vector(768) NOT NULL,
+                                                          embedding vector(384) NOT NULL,
                                                           created_by text,
                                                           created_at timestamptz NOT NULL DEFAULT now(),
                                                           last_modified_by text NULL,

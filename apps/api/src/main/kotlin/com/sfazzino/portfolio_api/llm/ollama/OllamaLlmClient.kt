@@ -5,9 +5,9 @@ import com.sfazzino.portfolio_api.contact.moderation.ModerationVerdict
 import com.sfazzino.portfolio_api.exception.ApplicationException.Companion.unknownError
 import com.sfazzino.portfolio_api.llm.LlmClient
 import com.sfazzino.portfolio_api.llm.ollama.dtos.*
+import com.sfazzino.portfolio_api.llm.prompt.LlmPrompts
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Profile
-import org.springframework.core.io.ResourceLoader
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClient
@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong
 @Component
 @Profile("llm")
 class OllamaLlmClient(
-  resourceLoader: ResourceLoader,
+  private val prompts: LlmPrompts,
   private val jsonMapper: JsonMapper,
   private val properties: OllamaProperties,
 ): LlmClient {
@@ -26,16 +26,9 @@ class OllamaLlmClient(
   private val lastWarmupAt = AtomicLong(0L)
   private val restClient = RestClient.create(properties.baseUrl)
 
+  // Ping the LLM service with a warm-up request
   init {
-    promptMessage = resourceLoader.getResource(properties.contactPromptPath)
-      .inputStream
-      .bufferedReader()
-      .use { it.readText() }
-      .trim()
-
-    // Ping the LLM service with a warm-up request
     warmUp()
-
     log.info("Ollama LLM Moderation Client initialized with model='{}'", properties.moderationModel)
   }
 
@@ -47,7 +40,9 @@ class OllamaLlmClient(
         model = properties.moderationModel,
         prompt = prompt,
         temperature = 0.0,
-        maxTokens = properties.maxTokens
+        maxTokens = properties.maxTokens,
+        numCtx = properties.moderationContext,
+        keepAlive = properties.keepAlive,
       )
 
       if (rawContent.isEmpty()) return ModerationDecision.block(REASON_EMPTY_CONTENT)
@@ -65,7 +60,7 @@ class OllamaLlmClient(
 
   private fun composePrompt(message: String): String {
     return """
-      $promptMessage
+      ${prompts.moderation}
 
       ${message.trim()}
     """.trimIndent()
@@ -75,17 +70,20 @@ class OllamaLlmClient(
     model: String,
     prompt: String,
     temperature: Double,
-    maxTokens: Int
+    maxTokens: Int,
+    numCtx: Int,
+    keepAlive: String,
   ): String {
     val request = OllamaGenerateRequest(
       model = model,
       prompt = prompt,
       stream = false,
       format = null,
-      keepAlive = "10m",
+      keepAlive = keepAlive,
       options = OllamaOptions(
         temperature = temperature,
-        numPredict = maxTokens
+        numPredict = maxTokens,
+        numCtx = numCtx,
       )
     )
 
@@ -122,7 +120,9 @@ class OllamaLlmClient(
       model = properties.ragGenerationModel,
       prompt = prompt.trim(),
       temperature = 0.5,
-      maxTokens = properties.maxTokens
+      maxTokens = properties.maxTokens,
+      numCtx = properties.ragContext,
+      keepAlive = properties.keepAlive,
     )
 
     if (rawText.isBlank()) throw unknownError("Ollama generated empty content")
@@ -146,11 +146,9 @@ class OllamaLlmClient(
   }
 
   companion object {
-    lateinit var promptMessage: String
     private val log = LoggerFactory.getLogger(OllamaLlmClient::class.java)
 
     private const val REASON_ERROR = "llm_error"
-    private const val REASON_EMPTY_RESPONSE = "llm_empty_response"
     private const val REASON_EMPTY_CONTENT = "llm_empty_content"
     private const val REASON_INVALID_VERDICT = "llm_invalid_verdict"
   }

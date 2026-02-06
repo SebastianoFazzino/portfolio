@@ -1,6 +1,7 @@
 package com.sfazzino.portfolio_api.rag.service
 
 import com.sfazzino.portfolio_api.llm.LlmClient
+import com.sfazzino.portfolio_api.llm.prompt.LlmPrompts
 import com.sfazzino.portfolio_api.rag.dtos.KnowledgeAskResponse
 import com.sfazzino.portfolio_api.rag.repository.KnowledgeChunkSearchRepository
 import org.springframework.stereotype.Service
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class KnowledgeAskService(
     private val llmClient: LlmClient,
+    private val prompts: LlmPrompts,
     private val knowledgeRepository: KnowledgeChunkSearchRepository
 ) {
 
@@ -27,16 +29,8 @@ class KnowledgeAskService(
     }
 
     private fun buildPrompt(question: String, context: String): String {
-        return """
-            You are answering questions about Sebastiano Fazzino.
-            Use only the CONTEXT to answer the QUESTION.
-            If the answer is not in the context, say: "I don't have that information."
-
-            CONTEXT:
-            $context
-
-            QUESTION:
-            $question
-        """.trimIndent()
+        return prompts.rag
+            .replace("{{CONTEXT}}", context.trim())
+            .replace("{{QUESTION}}", question.trim())
     }
 }

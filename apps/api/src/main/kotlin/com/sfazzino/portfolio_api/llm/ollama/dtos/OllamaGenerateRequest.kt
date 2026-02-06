@@ -15,5 +15,7 @@ data class OllamaGenerateRequest(
 data class OllamaOptions(
     val temperature: Double,
     @field:JsonProperty("num_predict")
-    val numPredict: Int
+    val numPredict: Int,
+    @field:JsonProperty("num_ctx")
+    val numCtx: Int
 )

@@ -78,12 +78,17 @@ contact:
 llm:
   ollama:
     base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
-    moderation-model: ${OLLAMA_MODEL:llama3.2:1b}
-    rag-generation-model: ${OLLAMA_RAG_GENERATION_MODEL:llama3.2:1b}
-    rag-embedding-model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
-    max-tokens: ${OLLAMA_MAX_TOKENS:128}
+    moderation-model: ${OLLAMA_MODEL:qwen2.5:3b-instruct-q4_K_M}
+    rag-generation-model: ${OLLAMA_RAG_GENERATION_MODEL:qwen2.5:3b-instruct-q4_K_M}
+    rag-embedding-model: ${OLLAMA_EMBEDDING_MODEL:granite-embedding:30m}
+    max-tokens: ${OLLAMA_MAX_TOKENS:256}
+    moderation-context: ${OLLAMA_MODERATION_CTX:1024}
+    rag-context: ${OLLAMA_RAG_CTX:2048}
+    keep-alive: ${OLLAMA_KEEP_ALIVE:5m}
     warm-up-interval-ms: ${OLLAMA_WARMUP_INTERVAL:300000}
-    contact-prompt-path: classpath:prompts/contact_moderation_v1.txt
+  prompts:
+    rag-path: classpath:prompts/knowledge_v1.txt
+    moderation-path: classpath:prompts/contact_moderation_v1.txt
 
 logging:
   level:

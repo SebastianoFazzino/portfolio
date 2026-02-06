@@ -15,6 +15,6 @@ data class KnowledgeChunk(
 
     val contentHash: String,
 
-    @org.hibernate.annotations.Array(length = 768)
+    @org.hibernate.annotations.Array(length = 384)
     val embedding: FloatArray
 ): BaseEntity()

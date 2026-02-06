@@ -9,6 +9,8 @@ data class OllamaProperties(
   val ragGenerationModel: String,
   val ragEmbeddingModel: String,
   val maxTokens: Int,
-  val warmUpIntervalMs: Long,
-  val contactPromptPath: String,
+  val moderationContext: Int,
+  val ragContext: Int,
+  val keepAlive: String,
+  val warmUpIntervalMs: Long
 )

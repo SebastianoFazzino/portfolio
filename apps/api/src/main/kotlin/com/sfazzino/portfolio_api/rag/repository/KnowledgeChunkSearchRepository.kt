@@ -16,7 +16,7 @@ class KnowledgeChunkSearchRepository(
             """
                     SELECT id, source, content
                     FROM portfolio.knowledge_chunks
-                    ORDER BY embedding OPERATOR(portfolio.<=>) ?::portfolio.vector(768)
+                    ORDER BY embedding OPERATOR(portfolio.<=>) ?::portfolio.vector(384)
                     LIMIT ?
                 """.trimIndent(),
             { resultSet, _ ->
