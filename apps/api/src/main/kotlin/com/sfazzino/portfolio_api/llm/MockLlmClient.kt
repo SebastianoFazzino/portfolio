@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 @Component
-@Profile("!llm")
+@Profile("!ollama")
 class MockLlmClient : LlmClient {
 
   override fun moderate(message: String): ModerationDecision {

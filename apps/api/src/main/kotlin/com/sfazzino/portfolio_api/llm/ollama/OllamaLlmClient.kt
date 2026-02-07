@@ -16,7 +16,7 @@ import tools.jackson.databind.json.JsonMapper
 import java.util.concurrent.atomic.AtomicLong
 
 @Component
-@Profile("llm")
+@Profile("ollama")
 class OllamaLlmClient(
   private val prompts: LlmPrompts,
   private val jsonMapper: JsonMapper,
