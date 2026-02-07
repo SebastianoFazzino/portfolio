@@ -18,7 +18,7 @@ class KnowledgeAskService(
 
         val chunks = knowledgeRepository.findTopSimilar(
             queryEmbedding = queryEmbedding,
-            limit = 6
+            limit = 10
         )
 
         val context = chunks.joinToString(separator = "\n\n") { it.content }
