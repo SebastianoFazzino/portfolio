@@ -37,9 +37,15 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework:spring-context-support")
+
+	implementation("org.apache.tika:tika-core:3.2.3")
+	implementation("org.apache.tika:tika-parsers-standard-package:3.2.3")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
+
 	implementation("org.flywaydb:flyway-database-postgresql")
+	implementation("org.hibernate.orm:hibernate-vector")
 	runtimeOnly("org.postgresql:postgresql")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")

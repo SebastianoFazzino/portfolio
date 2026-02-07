@@ -1,0 +1,27 @@
+source: experience_profile_v1
+---
+- The portfolio owner is a software engineer with several years of professional experience building backend systems and API-driven applications.
+- The portfolio owner has worked across multiple industries with different performance and reliability constraints, adapting architectural decisions to the problem domain.
+- The portfolio owner primarily uses Java or Kotlin with Spring Boot to design and maintain backend services used in production environments.
+- The portfolio owner has experience with both monolithic applications and distributed systems, choosing simpler designs unless complexity provides clear operational value.
+- The portfolio owner has used Kafka for asynchronous communication between services in microservice-based architectures.
+
+source: architecture_general_v1
+---
+- The portfolio owner has experience designing and working with both monolithic and microservice-based architectures, understanding tradeoffs between simplicity, scaling, and operational overhead.
+- The portfolio owner has built or operated distributed systems that rely on asynchronous communication patterns and occasional eventual consistency.
+- The portfolio owner has worked with cloud platforms and common deployment approaches, including containerized applications and basic orchestration concepts.
+- The portfolio owner prioritizes pragmatic architecture, focusing on maintainability and operability while avoiding overengineering.
+
+source: this_portfolio_v1
+---
+- This portfolio is implemented as a self-hosted system where a web frontend calls an API that performs routing, moderation, retrieval, and prompt assembly before invoking a local language model.
+- This portfolio uses a vector-enabled database (for example, PostgreSQL + pgvector) to retrieve relevant knowledge chunks at query time.
+- This portfolio runs the language model locally (for example, via Ollama) with bounded context size to keep latency predictable and resource usage under control.
+- This portfolio avoids external AI APIs to keep execution and data flow fully under the operator's control.
+
+source: ai_usage_v1
+---
+- This project demonstrates retrieval-augmented generation (RAG), where responses are grounded in curated knowledge chunks retrieved from a vector store.
+- This project keeps policy and control logic outside the model, using moderation and routing to ensure predictable behavior and clear failure modes.
+- This project can apply AI-assisted moderation to user-facing inputs (such as contact forms) to reduce spam, abuse, and prompt-injection attempts.

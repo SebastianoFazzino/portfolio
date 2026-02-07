@@ -8,6 +8,9 @@ object ErrorCodes {
   const val EMAIL_SEND_FAILED = "email_send_failed"
   const val CONTACT_REJECTED = "contact_rejected"
 
+  const val EMPTY_FILE = "empty_file"
+  const val INVALID_FILE = "invalid_file"
+
   const val RESOURCE_NOT_FOUND = "resource_not_found"
   const val METHOD_NOT_ALLOWED = "method_not_allowed"
 

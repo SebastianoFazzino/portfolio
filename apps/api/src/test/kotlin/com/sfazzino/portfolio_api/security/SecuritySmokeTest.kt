@@ -3,13 +3,13 @@ package com.sfazzino.portfolio_api.security
 import com.sfazzino.portfolio_api.common.AppController
 import com.sfazzino.portfolio_api.contact.ContactController
 import com.sfazzino.portfolio_api.contact.ContactService
-import com.sfazzino.portfolio_api.contact.moderation.llm.MockLlmClient
+import com.sfazzino.portfolio_api.llm.MockLlmClient
 import com.sfazzino.portfolio_api.security.api_key.ApiKey
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyAuthFilter
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyAuthFilter.Companion.API_KEY_HEADER
-import com.sfazzino.portfolio_api.security.api_key.ApiKeyHasher
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyRepository
 import com.sfazzino.portfolio_api.security.cors.CorsProperties
+import com.sfazzino.portfolio_api.security.crypto.CryptoUtil
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
@@ -72,7 +72,7 @@ class SecuritySmokeTest {
     doNothing().whenever(contactService).handle(any())
 
     val rawKey = "dev-test-key"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     whenever(apiKeyRepository.findByKey(hashed)).thenReturn(
       ApiKey(
@@ -98,7 +98,7 @@ class SecuritySmokeTest {
     doNothing().whenever(contactService).handle(any())
 
     val rawKey = "dev-test-key"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     whenever(apiKeyRepository.findByKey(hashed)).thenReturn(
       ApiKey(

@@ -3,6 +3,7 @@ package com.sfazzino.portfolio_api.security.api_key
 import com.sfazzino.portfolio_api.exception.ErrorCodes.EXPIRED_API_KEY
 import com.sfazzino.portfolio_api.exception.ErrorCodes.INVALID_API_KEY
 import com.sfazzino.portfolio_api.exception.ErrorCodes.MISSING_API_KEY
+import com.sfazzino.portfolio_api.security.crypto.CryptoUtil
 import jakarta.servlet.FilterChain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -62,7 +63,7 @@ class ApiKeyAuthFilterTest {
   @Test
   fun `invalid api key - returns 401 with code INVALID_API_KEY`() {
     val rawKey = "nope"
-    whenever(repository.findByKey(ApiKeyHasher.hash(rawKey))).thenReturn(null)
+    whenever(repository.findByKey(CryptoUtil.hash(rawKey))).thenReturn(null)
 
     val req = MockHttpServletRequest("POST", "/contact").apply {
       addHeader(ApiKeyAuthFilter.API_KEY_HEADER, rawKey)
@@ -81,7 +82,7 @@ class ApiKeyAuthFilterTest {
   @Test
   fun `expired api key - returns 401 with code EXPIRED_API_KEY`() {
     val rawKey = "expired-key"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     whenever(repository.findByKey(hashed)).thenReturn(
       ApiKey(
@@ -109,7 +110,7 @@ class ApiKeyAuthFilterTest {
   @Test
   fun `missing required scope - returns 403 with required_scope`() {
     val rawKey = "valid-but-wrong-scope"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     whenever(repository.findByKey(hashed)).thenReturn(
       ApiKey(
@@ -137,7 +138,7 @@ class ApiKeyAuthFilterTest {
   @Test
   fun `valid key and scope - sets authentication and continues chain`() {
     val rawKey = "valid-key"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     whenever(repository.findByKey(hashed)).thenReturn(
       ApiKey(

@@ -6,8 +6,8 @@ import com.sfazzino.portfolio_api.exception.ErrorCodes.EXPIRED_API_KEY
 import com.sfazzino.portfolio_api.exception.ErrorCodes.MISSING_API_KEY
 import com.sfazzino.portfolio_api.security.api_key.ApiKey
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyAuthFilter
-import com.sfazzino.portfolio_api.security.api_key.ApiKeyHasher
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyRepository
+import com.sfazzino.portfolio_api.security.crypto.CryptoUtil
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -58,7 +58,7 @@ class ContactIntegrationTest {
   @Test
   fun `POST contact with valid api key and scope returns 200`() {
     val rawKey = "dev-test-key"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     apiKeyRepository.save(
       ApiKey(
@@ -82,7 +82,7 @@ class ContactIntegrationTest {
   @Test
   fun `POST contact with valid api key but missing scope returns 403`() {
     val rawKey = "dev-test-key"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     apiKeyRepository.save(
       ApiKey(
@@ -107,7 +107,7 @@ class ContactIntegrationTest {
   @Test
   fun `POST contact with expired api key returns 401`() {
     val rawKey = "dev-test-key"
-    val hashed = ApiKeyHasher.hash(rawKey)
+    val hashed = CryptoUtil.hash(rawKey)
 
     apiKeyRepository.save(
       ApiKey(

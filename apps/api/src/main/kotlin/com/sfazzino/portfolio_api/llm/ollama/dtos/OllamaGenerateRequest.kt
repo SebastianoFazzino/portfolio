@@ -1,4 +1,4 @@
-package com.sfazzino.portfolio_api.contact.moderation.llm.ollama.dtos
+package com.sfazzino.portfolio_api.llm.ollama.dtos
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -6,7 +6,7 @@ data class OllamaGenerateRequest(
     val model: String,
     val prompt: String,
     val stream: Boolean,
-    val format: String,
+    val format: String?,
     @field:JsonProperty("keep_alive")
     val keepAlive: String,
     val options: OllamaOptions,
@@ -15,5 +15,7 @@ data class OllamaGenerateRequest(
 data class OllamaOptions(
     val temperature: Double,
     @field:JsonProperty("num_predict")
-    val numPredict: Int
+    val numPredict: Int,
+    @field:JsonProperty("num_ctx")
+    val numCtx: Int
 )
