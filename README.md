@@ -97,8 +97,8 @@ These constraints drive most architectural decisions.
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://https://github.com/SebastianoFazzino/portfolio.git
+cd portfolio
 ```
 
 Start the system:
