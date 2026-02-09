@@ -1,6 +1,6 @@
 import Image from "next/image";
-import {ContactModal} from "@/components/ContactModal";
-import {Section} from "@/components/Section";
+import {ContactModal} from "@/components/contact/ContactModal";
+import {Section} from "@/components/common/Section";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {

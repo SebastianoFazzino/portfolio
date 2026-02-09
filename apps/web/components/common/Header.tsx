@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import {NavButton} from "@/components/NavButton";
+import {NavButton} from "@/components/common/NavButton";
 
 const sectionIds = ["about", "experience", "certifications", "this-site", "connect"] as const;
 

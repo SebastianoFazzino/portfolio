@@ -3,8 +3,9 @@
 import "./globals.css";
 import "./nav.css";
 import React from "react";
-import {Header} from "@/components/Header";
+import {Header} from "@/components/common/Header";
 import {BackendHeartbeat} from "@/components/utils/BackendHearthBeat";
+import {ChatLauncher} from "@/components/chat/ChatLauncher";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -15,8 +16,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             <div className="min-h-screen flex flex-col">
                 <Header />
-
                 <main className="flex-1">{children}</main>
+                <ChatLauncher />
 
                 <footer className="border-t border-white/10">
                     <div className="max-w-5xl mx-auto px-6 py-8 text-sm text-white/50">
