@@ -1,7 +1,6 @@
 package com.sfazzino.portfolio_api.rag.service
 
 import com.sfazzino.portfolio_api.llm.LlmClient
-import com.sfazzino.portfolio_api.rag.KnowledgeChunk
 import com.sfazzino.portfolio_api.rag.repository.KnowledgeChunkRepository
 import com.sfazzino.portfolio_api.security.crypto.CryptoUtil.hash
 import org.slf4j.LoggerFactory
@@ -15,6 +14,11 @@ class KnowledgeIndexService(
     fun ingestText(source: String, text: String) {
         val chunks = chunkText(text)
 
+        val deletedChunks =
+            if (knowledgeRepository.existsBySource(source)) {
+                knowledgeRepository.deleteBySource(source)
+            } else 0
+
         var storedChunksCount = 0
 
         chunks.forEach { chunk ->
@@ -27,20 +31,18 @@ class KnowledgeIndexService(
             val embedding = llmClient.embed(chunk)
 
             knowledgeRepository.save(
-                KnowledgeChunk(
-                    source = source,
-                    content = chunk,
-                    contentHash = contentHash,
-                    embedding = embedding
-                )
+                source = source,
+                content = chunk,
+                contentHash = contentHash,
+                embedding = embedding
             )
 
             storedChunksCount++
         }
 
         log.info(
-            "Indexed chunks source={} totalChunks={} storedChunks={}",
-            source, chunks.size, storedChunksCount
+            "Indexed chunks source={} totalChunks={} storedChunks={}, deletedChunks={}",
+            source, chunks.size, storedChunksCount, deletedChunks
         )
     }
 

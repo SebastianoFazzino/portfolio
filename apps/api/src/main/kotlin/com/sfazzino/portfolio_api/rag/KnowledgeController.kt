@@ -3,6 +3,7 @@ package com.sfazzino.portfolio_api.rag
 import com.sfazzino.portfolio_api.exception.ApplicationException.Companion.emptyFile
 import com.sfazzino.portfolio_api.rag.dtos.KnowledgeAskRequest
 import com.sfazzino.portfolio_api.rag.dtos.KnowledgeAskResponse
+import com.sfazzino.portfolio_api.rag.dtos.KnowledgeChunkDto
 import com.sfazzino.portfolio_api.rag.dtos.KnowledgeIngestResponse
 import com.sfazzino.portfolio_api.rag.service.KnowledgeAskService
 import com.sfazzino.portfolio_api.rag.service.KnowledgeIngestService
@@ -40,5 +41,11 @@ class KnowledgeController(
     fun ask(@RequestBody @Valid request: KnowledgeAskRequest): ResponseEntity<KnowledgeAskResponse> {
         val response = askService.ask(request.question.trim())
         return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("chunks-raw")
+    fun getAllChunksRaw(): ResponseEntity<List<KnowledgeChunkDto>> {
+        val chunks = askService.getAllChunksRaw()
+        return ResponseEntity.ok(chunks)
     }
 }
