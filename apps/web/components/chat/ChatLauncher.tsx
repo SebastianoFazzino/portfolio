@@ -39,6 +39,7 @@ export function ChatLauncher() {
                     bg-black/60 backdrop-blur
                     text-2xl text-white/70
                     hover:text-(--accent) hover:border-(--accent)
+                    cursor-pointer
                     transition-colors
                 "
                 aria-label="Toggle chat"

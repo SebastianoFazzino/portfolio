@@ -20,6 +20,8 @@ class ApiKeyAuthFilter(
     private val apiKeyRepository: ApiKeyRepository
 ) : OncePerRequestFilter() {
 
+    override fun shouldNotFilterAsyncDispatch(): Boolean = false
+
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
         val method = request.method
         val path = request.requestURI.removePrefix(request.contextPath ?: "")

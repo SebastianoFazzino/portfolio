@@ -20,5 +20,7 @@ class MockLlmClient : LlmClient {
     return "Lorem ipsum"
   }
 
+  override fun generateStream(prompt: String, onToken: (String) -> Unit) {}
+
   override fun warmUp() {}
 }

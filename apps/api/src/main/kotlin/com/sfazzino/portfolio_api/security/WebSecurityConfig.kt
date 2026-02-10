@@ -1,6 +1,7 @@
 package com.sfazzino.portfolio_api.security
 
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyAuthFilter
+import jakarta.servlet.DispatcherType
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -30,6 +31,7 @@ class WebSecurityConfig(
                 auth
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/healthz").permitAll()
+                    .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll()
                     .anyRequest().authenticated()
             }
 
