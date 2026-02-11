@@ -35,7 +35,7 @@ class KnowledgeChunkRepositoryTest {
                 source text NOT NULL,
                 content text NOT NULL,
                 content_hash text NOT NULL,
-                embedding portfolio.vector(384) NOT NULL,
+                embedding portfolio.vector(768) NOT NULL,
                 created_by text,
                 created_at timestamptz NOT NULL DEFAULT now(),
                 last_modified_by text,
@@ -116,5 +116,5 @@ class KnowledgeChunkRepositoryTest {
     }
 
 private fun embedding(): FloatArray =
-        FloatArray(384) { 0.01f }
+        FloatArray(768) { 0.01f }
 }

@@ -46,7 +46,7 @@ class KnowledgeChunkRepository(
                 INSERT INTO portfolio.knowledge_chunks (
                     id, source, content, content_hash, embedding, created_by
                 )
-                VALUES (?, ?, ?, ?, ?::portfolio.vector(384), ?)
+                VALUES (?, ?, ?, ?, ?::portfolio.vector(768), ?)
             """.trimIndent(),
             id,
             source,
@@ -74,7 +74,7 @@ class KnowledgeChunkRepository(
             """
                     SELECT id, source, content, content_hash
                     FROM portfolio.knowledge_chunks
-                    ORDER BY embedding OPERATOR(portfolio.<=>) ?::portfolio.vector(384)
+                    ORDER BY embedding OPERATOR(portfolio.<=>) ?::portfolio.vector(768)
                     LIMIT ?
                 """.trimIndent(),
             { resultSet, _ ->

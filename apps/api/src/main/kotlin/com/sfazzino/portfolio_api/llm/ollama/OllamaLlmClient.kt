@@ -39,7 +39,9 @@ class OllamaLlmClient(
         model = properties.moderationModel,
         prompt = prompt,
         temperature = 0.0,
+        maxTokens = properties.moderationMaxTokens,
         numCtx = properties.moderationContext,
+        format = "json",
       )
 
       if (rawContent.isEmpty()) return ModerationDecision.block(REASON_EMPTY_CONTENT)
@@ -77,7 +79,9 @@ class OllamaLlmClient(
       model = properties.ragGenerationModel,
       prompt = prompt.trim(),
       temperature = 0.5,
+      maxTokens = properties.ragMaxTokens,
       numCtx = properties.ragContext,
+      format = null,
     )
 
     if (rawText.isBlank()) throw unknownError("Ollama generated empty content")
@@ -123,14 +127,15 @@ class OllamaLlmClient(
     temperature: Double,
     numCtx: Int,
     stream: Boolean,
-    maxTokens: Int = properties.maxTokens,
+    maxTokens: Int,
+    format: String?,
     keepAlive: String = properties.keepAlive,
   ): OllamaGenerateRequest {
     return OllamaGenerateRequest(
       model = model,
       prompt = prompt,
       stream = stream,
-      format = null,
+      format = format,
       keepAlive = keepAlive,
       options = OllamaOptions(
         temperature = temperature,
@@ -145,7 +150,8 @@ class OllamaLlmClient(
     prompt: String,
     temperature: Double,
     numCtx: Int,
-    maxTokens: Int = properties.maxTokens,
+    maxTokens: Int,
+    format: String?,
     keepAlive: String = properties.keepAlive,
   ): String {
     val request = buildGenerateRequest(
@@ -156,6 +162,7 @@ class OllamaLlmClient(
       stream = false,
       maxTokens = maxTokens,
       keepAlive = keepAlive,
+      format = format,
     )
 
     val response = restClient.post()
@@ -175,7 +182,7 @@ class OllamaLlmClient(
     temperature: Double,
     numCtx: Int,
     onToken: (String) -> Unit,
-    maxTokens: Int = properties.maxTokens,
+    maxTokens: Int = properties.ragMaxTokens,
     keepAlive: String = properties.keepAlive,
   ) {
     val request = buildGenerateRequest(
@@ -186,6 +193,7 @@ class OllamaLlmClient(
       stream = true,
       maxTokens = maxTokens,
       keepAlive = keepAlive,
+      format = null,
     )
 
     restClient.post()

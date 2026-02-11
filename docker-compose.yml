@@ -10,7 +10,7 @@ services:
     environment:
       OLLAMA_NUM_PARALLEL: "1"
       OLLAMA_NUM_THREADS: "4"
-    mem_limit: 4g
+    mem_limit: 3g
     command: ["serve"]
 
   ollama-init:
@@ -28,8 +28,8 @@ services:
         echo 'Waiting for Ollama...' &&
         until ollama list >/dev/null 2>&1; do sleep 1; done &&
         echo 'Pulling models...' &&
-        ollama pull qwen2.5:3b-instruct-q4_K_M &&
-        ollama pull granite-embedding:30m &&
+        ollama pull llama3.2:1b &&
+        ollama pull nomic-embed-text &&
         echo 'Done.'
       "
     restart: "no"
