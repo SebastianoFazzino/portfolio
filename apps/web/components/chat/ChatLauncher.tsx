@@ -1,31 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Chat } from "./Chat";
+import {useRef, useState} from "react";
+import {Chat} from "./Chat";
 
 export function ChatLauncher() {
     const [open, setOpen] = useState(false);
 
     const panelRef = useRef<HTMLDivElement | null>(null);
     const bubbleRef = useRef<HTMLButtonElement | null>(null);
-
-    useEffect(() => {
-        if (!open) return;
-
-        const options: AddEventListenerOptions = { capture: true };
-
-        function onPointerDown(e: PointerEvent) {
-            const target = e.target as Node;
-
-            if (panelRef.current?.contains(target)) return;
-            if (bubbleRef.current?.contains(target)) return;
-
-            setOpen(false);
-        }
-
-        document.addEventListener("pointerdown", onPointerDown, options);
-        return () => document.removeEventListener("pointerdown", onPointerDown, options);
-    }, [open]);
 
     return (
         <>

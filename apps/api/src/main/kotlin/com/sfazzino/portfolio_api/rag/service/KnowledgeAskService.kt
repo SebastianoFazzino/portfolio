@@ -4,6 +4,7 @@ import com.sfazzino.portfolio_api.llm.LlmClient
 import com.sfazzino.portfolio_api.llm.prompt.LlmPrompts
 import com.sfazzino.portfolio_api.rag.dtos.KnowledgeAskResponse
 import com.sfazzino.portfolio_api.rag.dtos.KnowledgeChunkDto
+import com.sfazzino.portfolio_api.rag.dtos.TokenChunk
 import com.sfazzino.portfolio_api.rag.repository.KnowledgeChunkRepository
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -75,14 +76,14 @@ class KnowledgeAskService(
 
                 llmClient.generateStream(prompt) { chunk ->
                     if (cancelled.get()) return@generateStream
-                    if (chunk.isBlank()) return@generateStream
+                    if (chunk.isEmpty()) return@generateStream
 
                     if (firstChunkSent.compareAndSet(false, true)) {
                         heartbeat?.cancel(false)
                     }
 
                     log.debug("[ASK-STREAM] token='{}'", chunk)
-                    emit(emitter, "token", chunk)
+                    emit(emitter, "token", TokenChunk(chunk))
                 }
 
                 if (!cancelled.get()) {
@@ -122,7 +123,7 @@ class KnowledgeAskService(
         private val log = LoggerFactory.getLogger(KnowledgeAskService::class.java)
         private val sseScheduler: ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
 
-        private const val CHUNK_SIZE = 10
+        private const val CHUNK_SIZE = 6
         private const val HEARTBEAT_MS = 1200L
     }
 }

@@ -32,3 +32,19 @@ export async function postToBackend(args: {
         body: JSON.stringify(args.body),
     });
 }
+
+export async function getStreamFromBackend(args: {
+    pathWithQuery: string;
+}): Promise<Response> {
+    const backendUrl = `${getBackendBaseUrl()}${args.pathWithQuery.startsWith("/") ? "" : "/"}${args.pathWithQuery}`;
+    const backendApiKey = getBackendApiKey();
+
+    return fetch(backendUrl, {
+        method: "GET",
+        headers: {
+            "X-API-KEY": backendApiKey,
+            "Accept": "text/event-stream",
+            "Cache-Control": "no-cache",
+        },
+    });
+}
