@@ -66,11 +66,11 @@ class KnowledgeAskService(
                 val context = chunks.joinToString("\n\n") { it.content }
                 val prompt = buildPrompt(question, context)
 
-                emit(emitter, "status", "Generating answer…")
+                emit(emitter, "status", "Generating answer")
 
                 heartbeat = sseScheduler.scheduleAtFixedRate({
                     if (!firstChunkSent.get() && !cancelled.get()) {
-                        emit(emitter, "status", "Generating answer…")
+                        emit(emitter, "status", "Generating answer")
                     }
                 }, HEARTBEAT_MS, HEARTBEAT_MS, TimeUnit.MILLISECONDS)
 

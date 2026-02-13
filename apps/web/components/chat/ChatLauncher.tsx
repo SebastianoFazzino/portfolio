@@ -55,7 +55,7 @@ export function ChatLauncher() {
 
                         <button
                             onClick={() => setOpen(false)}
-                            className="text-white/40 hover:text-rose-500"
+                            className="text-white/40 hover:text-rose-500 cursor-pointer"
                             aria-label="Close chat"
                         >
                             ✕
