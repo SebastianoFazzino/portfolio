@@ -113,25 +113,55 @@ export default function Home() {
 
                 <ul className="mt-4 space-y-3 max-w-2xl text-white/50">
                     <li>AWS Solutions Architect – Associate</li>
-                    <li>AWS Developer – Associate</li>
+                    <li>AWS Certified AI - Practitioner</li>
                 </ul>
             </Section>
 
             <Section id="this-site">
                 <h2>This site</h2>
 
-                <ul className="mt-6 space-y-3 max-w-2xl list-disc list-inside text-white/70">
-                    <li>Frontend built with Next.js</li>
-                    <li>Self-hosted on my own Raspberry Pi (no managed hosting)</li>
-                    <li>Containerized with Docker Compose</li>
-                    <li>Automated builds & deployments via GitHub Actions</li>
-                    <li>Reverse proxy in front, backend services kept private</li>
-                    <li>Secrets managed through environment variables</li>
-                </ul>
-
-                <p className="mt-6 text-sm text-white/50 max-w-2xl">
-                    Designed as a small, self managed system with clear operational boundaries.
+                <p className="mt-6 max-w-3xl text-white/80">
+                    This site includes a lightweight AI assistant designed to answer questions
+                    about my background, experience, and projects. It is fully self-hosted and
+                    runs on my own infrastructure, using retrieval-augmented generation (RAG)
+                    over curated knowledge rather than a generic chatbot.
                 </p>
+
+                <p className="mt-4 max-w-3xl text-white/60">
+                    The system is intentionally
+                    constrained, moderated, and resource-aware, prioritizing predictable behavior,
+                    data safety, and clear boundaries over novelty.
+                </p>
+
+                <p className="mt-4 max-w-3xl text-white/60">
+                    I built it to demonstrate how I approach real-world system design:
+                    ownership, trade-offs, and reliability over hype.
+                </p>
+
+                <div className="mt-10 max-w-3xl">
+                    <h4 className="text-white/50 text-sm uppercase tracking-wide">
+                        Open Source
+                    </h4>
+
+                    <p className="mt-4 text-white/70">
+                        The full source code for this project is available under the MIT License.
+                        You are welcome to fork it, reuse parts of it, or adapt it for your own portfolio.
+                    </p>
+
+                    <a
+                        href="https://github.com/SebastianoFazzino/portfolio"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group mt-4 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-(--accent)"
+                    >
+                        <span className="text-white/40 transition-colors group-hover:text-(--accent)">
+                            →
+                        </span>
+                        <span>
+                            View on GitHub
+                        </span>
+                    </a>
+                </div>
             </Section>
 
             <Section id="connect">
