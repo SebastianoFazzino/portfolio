@@ -10,10 +10,37 @@ import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException
 import org.springframework.web.servlet.resource.NoResourceFoundException
+import java.io.IOException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+
+  /// Connection & Async Exceptions
+
+  @ExceptionHandler(AsyncRequestNotUsableException::class)
+  fun handleAsyncDisconnect(request: HttpServletRequest) {
+    log.debug("Client disconnected: {}", request.requestURI)
+  }
+
+  @ExceptionHandler(IOException::class)
+  fun handleIOException(ex: IOException, request: HttpServletRequest) {
+    if (isClientAbort(ex)) {
+      log.debug("Client disconnected (IO): {}", request.requestURI)
+      return
+    }
+
+    log.error("IO error while processing {}", request.requestURI, ex)
+    throw ex
+  }
+
+  private fun isClientAbort(ex: IOException): Boolean {
+    val msg = ex.message?.lowercase().orEmpty()
+    return msg.contains("broken pipe") || msg.contains("connection reset by peer")
+  }
+
+  /// Application Exceptions
 
   @ExceptionHandler(ApplicationException::class)
   fun handleApplicationException(ex: ApplicationException): ResponseEntity<ExceptionResponse> =

@@ -46,7 +46,7 @@ class KnowledgeChunkRepository(
                 INSERT INTO portfolio.knowledge_chunks (
                     id, source, content, content_hash, embedding, created_by
                 )
-                VALUES (?, ?, ?, ?, ?::portfolio.vector(384), ?)
+                VALUES (?, ?, ?, ?, ?::portfolio.vector(768), ?)
             """.trimIndent(),
             id,
             source,
@@ -74,7 +74,7 @@ class KnowledgeChunkRepository(
             """
                     SELECT id, source, content, content_hash
                     FROM portfolio.knowledge_chunks
-                    ORDER BY embedding OPERATOR(portfolio.<=>) ?::portfolio.vector(384)
+                    ORDER BY embedding OPERATOR(portfolio.<=>) ?::portfolio.vector(768)
                     LIMIT ?
                 """.trimIndent(),
             { resultSet, _ ->
@@ -93,28 +93,28 @@ class KnowledgeChunkRepository(
     fun findAll(): List<KnowledgeChunkDto> {
         return jdbcTemplate.query(
             """
-            SELECT
-                id,
-                source,
-                content,
-                content_hash,
-                created_by,
-                created_at,
-                last_modified_by,
-                last_modified_at
-            FROM portfolio.knowledge_chunks
-            ORDER BY created_at DESC
+                    SELECT
+                        id,
+                        source,
+                        content,
+                        content_hash,
+                        created_by,
+                        created_at,
+                        last_modified_by,
+                        last_modified_at
+                    FROM portfolio.knowledge_chunks
+                    ORDER BY created_at DESC
             """.trimIndent()
-        ) { rs, _ ->
+        ) { resultSet, _ ->
             KnowledgeChunkDto(
-                id = rs.getObject("id", UUID::class.java),
-                source = rs.getString("source"),
-                content = rs.getString("content"),
-                contentHash = rs.getString("content_hash"),
-                createdBy = rs.getString("created_by"),
-                createdAt = rs.getTimestamp("created_at").toInstant(),
-                lastModifiedBy = rs.getString("last_modified_by"),
-                lastModifiedAt = rs.getTimestamp("last_modified_at")?.toInstant()
+                id = resultSet.getObject("id", UUID::class.java),
+                source = resultSet.getString("source"),
+                content = resultSet.getString("content"),
+                contentHash = resultSet.getString("content_hash"),
+                createdBy = resultSet.getString("created_by"),
+                createdAt = resultSet.getTimestamp("created_at").toInstant(),
+                lastModifiedBy = resultSet.getString("last_modified_by"),
+                lastModifiedAt = resultSet.getTimestamp("last_modified_at")?.toInstant()
             )
         }
     }

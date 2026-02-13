@@ -26,7 +26,6 @@ class OllamaLlmClient(
   private val lastWarmupAt = AtomicLong(0L)
   private val restClient = RestClient.create(properties.baseUrl)
 
-  // Ping the LLM service with a warm-up request
   init {
     warmUp()
     log.info("Ollama LLM Moderation Client initialized with model='{}'", properties.moderationModel)
@@ -40,9 +39,9 @@ class OllamaLlmClient(
         model = properties.moderationModel,
         prompt = prompt,
         temperature = 0.0,
-        maxTokens = properties.maxTokens,
+        maxTokens = properties.moderationMaxTokens,
         numCtx = properties.moderationContext,
-        keepAlive = properties.keepAlive,
+        format = "json",
       )
 
       if (rawContent.isEmpty()) return ModerationDecision.block(REASON_EMPTY_CONTENT)
@@ -58,46 +57,6 @@ class OllamaLlmClient(
     }
   }
 
-  private fun composePrompt(message: String): String {
-    return """
-      ${prompts.moderation}
-
-      ${message.trim()}
-    """.trimIndent()
-  }
-
-  private fun generateRawText(
-    model: String,
-    prompt: String,
-    temperature: Double,
-    maxTokens: Int,
-    numCtx: Int,
-    keepAlive: String,
-  ): String {
-    val request = OllamaGenerateRequest(
-      model = model,
-      prompt = prompt,
-      stream = false,
-      format = null,
-      keepAlive = keepAlive,
-      options = OllamaOptions(
-        temperature = temperature,
-        numPredict = maxTokens,
-        numCtx = numCtx,
-      )
-    )
-
-    val response = restClient.post()
-      .uri("/api/generate")
-      .contentType(MediaType.APPLICATION_JSON)
-      .body(request)
-      .retrieve()
-      .body<OllamaGenerateResponse>()
-      ?: throw unknownError("Ollama generate empty response")
-
-    return response.response?.trim().orEmpty()
-  }
-
   override fun embed(text: String): FloatArray {
     val request = OllamaEmbeddingsRequest(
       model = properties.ragEmbeddingModel,
@@ -105,7 +64,7 @@ class OllamaLlmClient(
     )
 
     val response = restClient.post()
-      .uri("/api/embeddings")
+      .uri(EMBEDDINGS_ENDPOINT)
       .contentType(MediaType.APPLICATION_JSON)
       .body(request)
       .retrieve()
@@ -120,13 +79,23 @@ class OllamaLlmClient(
       model = properties.ragGenerationModel,
       prompt = prompt.trim(),
       temperature = 0.5,
-      maxTokens = properties.maxTokens,
+      maxTokens = properties.ragMaxTokens,
       numCtx = properties.ragContext,
-      keepAlive = properties.keepAlive,
+      format = null,
     )
 
     if (rawText.isBlank()) throw unknownError("Ollama generated empty content")
     return rawText.trim()
+  }
+
+  override fun generateStream(prompt: String, onToken: (String) -> Unit) {
+    generateRawStream(
+      model = properties.ragGenerationModel,
+      prompt = prompt.trim(),
+      temperature = 0.5,
+      numCtx = properties.ragContext,
+      onToken = onToken,
+    )
   }
 
   override fun warmUp() {
@@ -139,14 +108,121 @@ class OllamaLlmClient(
     try {
       moderate("Hello, world!")
       log.info("Ollama LLM warm-up completed")
-
     } catch (error: Exception) {
       log.warn("Ollama LLM warm-up failed", error)
     }
   }
 
+  private fun composePrompt(message: String): String {
+    return """
+      ${prompts.moderation}
+
+      ${message.trim()}
+    """.trimIndent()
+  }
+
+  private fun buildGenerateRequest(
+    model: String,
+    prompt: String,
+    temperature: Double,
+    numCtx: Int,
+    stream: Boolean,
+    maxTokens: Int,
+    format: String?,
+    keepAlive: String = properties.keepAlive,
+  ): OllamaGenerateRequest {
+    return OllamaGenerateRequest(
+      model = model,
+      prompt = prompt,
+      stream = stream,
+      format = format,
+      keepAlive = keepAlive,
+      options = OllamaOptions(
+        temperature = temperature,
+        numPredict = maxTokens,
+        numCtx = numCtx,
+      )
+    )
+  }
+
+  private fun generateRawText(
+    model: String,
+    prompt: String,
+    temperature: Double,
+    numCtx: Int,
+    maxTokens: Int,
+    format: String?,
+    keepAlive: String = properties.keepAlive,
+  ): String {
+    val request = buildGenerateRequest(
+      model = model,
+      prompt = prompt,
+      temperature = temperature,
+      numCtx = numCtx,
+      stream = false,
+      maxTokens = maxTokens,
+      keepAlive = keepAlive,
+      format = format,
+    )
+
+    val response = restClient.post()
+      .uri(GENERATE_ENDPOINT)
+      .contentType(MediaType.APPLICATION_JSON)
+      .body(request)
+      .retrieve()
+      .body<OllamaGenerateResponse>()
+      ?: throw unknownError("Ollama generate empty response")
+
+    return response.response?.trim().orEmpty()
+  }
+
+  private fun generateRawStream(
+    model: String,
+    prompt: String,
+    temperature: Double,
+    numCtx: Int,
+    onToken: (String) -> Unit,
+    maxTokens: Int = properties.ragMaxTokens,
+    keepAlive: String = properties.keepAlive,
+  ) {
+    val request = buildGenerateRequest(
+      model = model,
+      prompt = prompt,
+      temperature = temperature,
+      numCtx = numCtx,
+      stream = true,
+      maxTokens = maxTokens,
+      keepAlive = keepAlive,
+      format = null,
+    )
+
+    restClient.post()
+      .uri(GENERATE_ENDPOINT)
+      .contentType(MediaType.APPLICATION_JSON)
+      .body(request)
+      .exchange { _, response ->
+        val input = response.body ?: throw unknownError("Ollama stream empty body")
+
+        input.bufferedReader().useLines { lines ->
+          lines.forEach { line ->
+            if (line.isBlank()) return@forEach
+
+            val chunk = jsonMapper.readValue(line, OllamaGenerateStreamChunk::class.java)
+
+            val text = chunk.response.orEmpty()
+            if (text.isNotBlank()) onToken(text)
+
+            if (chunk.done == true) return@useLines
+          }
+        }
+      }
+  }
+
   companion object {
     private val log = LoggerFactory.getLogger(OllamaLlmClient::class.java)
+
+    private const val GENERATE_ENDPOINT = "/api/generate"
+    private const val EMBEDDINGS_ENDPOINT = "/api/embeddings"
 
     private const val REASON_ERROR = "llm_error"
     private const val REASON_EMPTY_CONTENT = "llm_empty_content"

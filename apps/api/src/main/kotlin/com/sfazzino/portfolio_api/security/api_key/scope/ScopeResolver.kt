@@ -21,6 +21,7 @@ object ScopeResolver {
     // contact
     if (method == "POST" && path == "/contact" ) return CONTACT
     if (method == "GET" && path == "/knowledge/ask") return CONTACT
+    if (method == "GET" && path == "/knowledge/ask/stream") return CONTACT
 
     // default: protect everything else
     return ADMIN_ALL

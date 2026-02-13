@@ -13,12 +13,14 @@ class MockLlmClient : LlmClient {
   }
 
   override fun embed(text: String): FloatArray {
-    return FloatArray(384) { 0.0f }
+    return FloatArray(768) { 0.0f }
   }
 
   override fun generate(prompt: String): String {
     return "Lorem ipsum"
   }
+
+  override fun generateStream(prompt: String, onToken: (String) -> Unit) {}
 
   override fun warmUp() {}
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useRef, useState} from "react";
-import {ContactForm} from "@/components/ContactForm";
+import {ContactForm} from "@/components/contact/ContactForm";
 
 export function ContactModal() {
     const [isOpen, setIsOpen] = useState(false);

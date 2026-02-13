@@ -53,6 +53,10 @@ p {
   @apply text-base leading-relaxed text-white/70;
 }
 
+.chat p {
+  @apply text-sm leading-snug
+}
+
 /* === Dark input focus (accent) === */
 .input-accent {
   background-color: var(--background);
