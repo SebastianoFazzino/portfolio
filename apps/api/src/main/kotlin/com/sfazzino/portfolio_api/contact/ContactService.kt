@@ -7,6 +7,7 @@ import com.sfazzino.portfolio_api.security.rate_limiter.ClientIpResolver
 import com.sfazzino.portfolio_api.security.rate_limiter.IpRateLimiter
 import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
@@ -15,6 +16,7 @@ class ContactService(
     private val rateLimiter: IpRateLimiter,
     private val moderationService: ModerationService,
     private val emailService: ContactEmailService,
+    @Value($$"${contact.moderation-enabled}") private val moderationEnabled: Boolean,
 ) {
 
   fun handle(dto: ContactRequest) {
@@ -31,9 +33,11 @@ class ContactService(
       throw ApplicationException.tooManyRequests()
     }
 
-    val decision = moderationService.check(message = message)
-    if (!decision.allowed) {
-      throw ApplicationException.contactRejected(message = decision.reason)
+    if (moderationEnabled) {
+      val decision = moderationService.check(message = message)
+      if (!decision.allowed) {
+        throw ApplicationException.contactRejected(message = decision.reason)
+      }
     }
 
     val ok = emailService.send(name = name, email = email, message = message, ip = ip)
