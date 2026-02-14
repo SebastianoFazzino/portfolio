@@ -1,7 +1,7 @@
-package com.sfazzino.portfolio_api.rag.service
+package com.sfazzino.portfolio_api.knowledge.service
 
+import com.sfazzino.portfolio_api.knowledge.KnowledgeChunkRepository
 import com.sfazzino.portfolio_api.llm.LlmClient
-import com.sfazzino.portfolio_api.rag.repository.KnowledgeChunkRepository
 import com.sfazzino.portfolio_api.security.crypto.CryptoUtil.hash
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service

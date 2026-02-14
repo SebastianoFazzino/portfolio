@@ -21,8 +21,32 @@ export async function GET(request: Request) {
     }
 
     if (!upstream.ok) {
-        const text = await upstream.text().catch(() => "");
-        return new Response(text || "Upstream error", { status: upstream.status });
+        const encoder = new TextEncoder();
+
+        const stream = new ReadableStream({
+            start(controller) {
+                controller.enqueue(
+                    encoder.encode(
+                        `event: backend_error\ndata: ${JSON.stringify({
+                            message: upstream.status === 429
+                                ? "Too many requests" : "Upstream error",
+                        })}\n\n`
+                    )
+                );
+                controller.enqueue(encoder.encode(`event: done\ndata: {}\n\n`));
+                controller.close();
+            },
+        });
+
+        return new Response(stream, {
+            status: 200,
+            headers: {
+                "Content-Type": "text/event-stream; charset=utf-8",
+                "Cache-Control": "no-cache, no-transform",
+                Connection: "keep-alive",
+                "X-Accel-Buffering": "no",
+            },
+        });
     }
 
     if (!upstream.body) {

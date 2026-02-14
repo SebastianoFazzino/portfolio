@@ -1,12 +1,12 @@
-package com.sfazzino.portfolio_api.rag
+package com.sfazzino.portfolio_api.knowledge
 
 import com.sfazzino.portfolio_api.exception.ApplicationException.Companion.emptyFile
-import com.sfazzino.portfolio_api.rag.dtos.KnowledgeAskRequest
-import com.sfazzino.portfolio_api.rag.dtos.KnowledgeAskResponse
-import com.sfazzino.portfolio_api.rag.dtos.KnowledgeChunkDto
-import com.sfazzino.portfolio_api.rag.dtos.KnowledgeIngestResponse
-import com.sfazzino.portfolio_api.rag.service.KnowledgeAskService
-import com.sfazzino.portfolio_api.rag.service.KnowledgeIngestService
+import com.sfazzino.portfolio_api.knowledge.dtos.KnowledgeAskRequest
+import com.sfazzino.portfolio_api.knowledge.dtos.KnowledgeAskResponse
+import com.sfazzino.portfolio_api.knowledge.dtos.KnowledgeChunkDto
+import com.sfazzino.portfolio_api.knowledge.dtos.KnowledgeIngestResponse
+import com.sfazzino.portfolio_api.knowledge.service.KnowledgeAskService
+import com.sfazzino.portfolio_api.knowledge.service.KnowledgeIngestService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import org.springframework.http.MediaType
@@ -29,7 +29,7 @@ class KnowledgeController(
     ): ResponseEntity<KnowledgeIngestResponse> {
         if (file.isEmpty) throw emptyFile()
 
-        val ingestionJobId = ingestService.ingestAsync(
+        val ingestionJobId = ingestService.ingest(
             source = source.trim(),
             originalFilename = file.originalFilename,
             contentType = file.contentType,

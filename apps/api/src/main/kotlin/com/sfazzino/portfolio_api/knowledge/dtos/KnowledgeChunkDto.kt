@@ -1,4 +1,4 @@
-package com.sfazzino.portfolio_api.rag.dtos
+package com.sfazzino.portfolio_api.knowledge.dtos
 
 import java.time.Instant
 import java.util.*
