@@ -57,10 +57,18 @@ services:
     build:
       context: ./apps/api
     environment:
+      ACTIVE_PROFILE: ${ACTIVE_PROFILE}
+      POSTGRES_URL: ${POSTGRES_URL}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       OLLAMA_BASE_URL: "http://ollama:11434"
+      OLLAMA_MODEL: ${OLLAMA_MODEL}
+      OLLAMA_RAG_GENERATION_MODEL: ${OLLAMA_RAG_GENERATION_MODEL}
+      OLLAMA_EMBEDDING_MODEL: ${OLLAMA_EMBEDDING_MODEL}
     ports:
       - "9909:9909"
     depends_on:
+      - postgres
       - ollama
     networks:
       - internal

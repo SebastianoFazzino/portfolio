@@ -9,8 +9,6 @@ spring:
     enabled: false
   application:
     name: portfolio-api
-  config:
-    import: optional:file:apps/api/.env[.properties]
   profiles:
     active: ${ACTIVE_PROFILE:}
 
