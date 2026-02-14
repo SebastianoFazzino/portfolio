@@ -65,6 +65,14 @@ services:
       OLLAMA_MODEL: ${OLLAMA_MODEL}
       OLLAMA_RAG_GENERATION_MODEL: ${OLLAMA_RAG_GENERATION_MODEL}
       OLLAMA_EMBEDDING_MODEL: ${OLLAMA_EMBEDDING_MODEL}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-}
+      CLIENT_API_KEY: ${CLIENT_API_KEY:-}
+      BREVO_API_KEY: ${BREVO_API_KEY:-}
+      CONTACT_TO_EMAIL: ${CONTACT_TO_EMAIL:-}
+      CONTACT_FROM_EMAIL: ${CONTACT_FROM_EMAIL:-}
+      CONTACT_FROM_NAME: ${CONTACT_FROM_NAME:-}
+      CONTACT_RATE_LIMIT_WINDOW_MS: ${CONTACT_RATE_LIMIT_WINDOW_MS:-60000}
+      CONTACT_RATE_LIMIT_MAX: ${CONTACT_RATE_LIMIT_MAX:-10}
     ports:
       - "9909:9909"
     depends_on:
@@ -80,6 +88,7 @@ services:
       context: ./apps/web
     environment:
       BACKEND_BASE_URL: "http://api:9909/api"
+      API_KEY: ${API_KEY}
     ports:
       - "3000:3000"
     depends_on:
