@@ -19,3 +19,16 @@ contact:
   rate-limit:
     window-ms: 60000
     max-requests: 5
+
+llm:
+  ollama:
+    base-url: http://ollama:11434
+    moderation-model: ollama-model
+    rag-generation-model: ollama-model
+    rag-embedding-model: ollama-model
+    moderation-max-tokens: 60
+    rag-max-tokens: 512
+    moderation-context: 2048
+    rag-context: 8192
+    keep-alive: 5m
+    warm-up-interval-ms: 300000
