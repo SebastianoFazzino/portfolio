@@ -56,8 +56,6 @@ services:
     restart: unless-stopped
     build:
       context: ./apps/api
-    env_file:
-      - ./apps/api/.env
     environment:
       OLLAMA_BASE_URL: "http://ollama:11434"
     ports:
@@ -72,8 +70,6 @@ services:
     restart: unless-stopped
     build:
       context: ./apps/web
-    env_file:
-      - ./apps/web/.env.local
     environment:
       BACKEND_BASE_URL: "http://api:9909/api"
     ports:
