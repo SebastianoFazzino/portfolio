@@ -23,10 +23,11 @@ class ContactServiceTest {
   private val emailService: ContactEmailService = mock()
 
   private val service = ContactService(
-    request = request,
-    rateLimiter = rateLimiter,
-    moderationService = moderationService,
-    emailService = emailService
+      request = request,
+      rateLimiter = rateLimiter,
+      moderationService = moderationService,
+      emailService = emailService,
+      moderationEnabled = true
   )
 
   @Test
