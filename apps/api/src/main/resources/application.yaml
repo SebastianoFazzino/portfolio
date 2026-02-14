@@ -79,12 +79,12 @@ llm:
     moderation-model: ${OLLAMA_MODEL}
     rag-generation-model: ${OLLAMA_RAG_GENERATION_MODEL}
     rag-embedding-model: ${OLLAMA_EMBEDDING_MODEL}
-    moderation-max-tokens: ${OLLAMA_MODERATION_MAX_TOKENS:60}
-    rag-max-tokens: ${OLLAMA__RAG_MAX_TOKENS:512}
-    moderation-context: ${OLLAMA_MODERATION_CTX:2048}
-    rag-context: ${OLLAMA_RAG_CTX:8192}
-    keep-alive: ${OLLAMA_KEEP_ALIVE:5m}
-    warm-up-interval-ms: ${OLLAMA_WARMUP_INTERVAL:300000}
+    moderation-max-tokens: ${OLLAMA_MODERATION_MAX_TOKENS}
+    rag-max-tokens: ${OLLAMA__RAG_MAX_TOKENS}
+    moderation-context: ${OLLAMA_MODERATION_CTX}
+    rag-context: ${OLLAMA_RAG_CTX}
+    keep-alive: ${OLLAMA_KEEP_ALIVE}
+    warm-up-interval-ms: ${OLLAMA_WARMUP_INTERVAL}
   prompts:
     rag-path: classpath:prompts/knowledge_v1.txt
     moderation-path: classpath:prompts/contact_moderation_v1.txt
