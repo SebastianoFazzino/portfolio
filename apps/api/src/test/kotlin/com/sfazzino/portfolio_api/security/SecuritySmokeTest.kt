@@ -1,5 +1,6 @@
 package com.sfazzino.portfolio_api.security
 
+import com.sfazzino.portfolio_api.TestcontainersConfiguration
 import com.sfazzino.portfolio_api.contact.ContactService
 import com.sfazzino.portfolio_api.knowledge.dtos.KnowledgeAskResponse
 import com.sfazzino.portfolio_api.knowledge.service.KnowledgeAskService
@@ -11,14 +12,17 @@ import com.sfazzino.portfolio_api.security.crypto.CryptoUtil
 import com.sfazzino.portfolio_api.security.rate_limiter.ContactRateLimitProps
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.info.BuildProperties
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.context.annotation.Import
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -28,7 +32,11 @@ import java.time.Instant
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(TestcontainersConfiguration::class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class SecuritySmokeTest {
+
   @Autowired lateinit var mvc: MockMvc
   @MockitoBean lateinit var corsProperties: CorsProperties
   @MockitoBean lateinit var buildProperties: BuildProperties
