@@ -106,11 +106,18 @@ class OllamaLlmClient(
     if (!lastWarmupAt.compareAndSet(last, now)) return
 
     try {
-      moderate("Hello, world!")
-      log.info("Ollama LLM warm-up completed")
+      val res = ping()
+      log.info("Ollama LLM warm-up completed, ping response: {}", res)
     } catch (error: Exception) {
       log.warn("Ollama LLM warm-up failed", error)
     }
+  }
+
+  private fun ping(): String? {
+    return restClient.get()
+      .uri(PING_ENDPOINT)
+      .retrieve()
+      .body<String>()
   }
 
   private fun composePrompt(message: String): String {
@@ -221,6 +228,7 @@ class OllamaLlmClient(
   companion object {
     private val log = LoggerFactory.getLogger(OllamaLlmClient::class.java)
 
+    private const val PING_ENDPOINT = "/api/tags"
     private const val GENERATE_ENDPOINT = "/api/generate"
     private const val EMBEDDINGS_ENDPOINT = "/api/embeddings"
 

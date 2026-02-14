@@ -10,7 +10,11 @@ spring:
   application:
     name: portfolio-api
   profiles:
-    active: ${ACTIVE_PROFILE:}
+    active: ${ACTIVE_PROFILE}
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:apps/api/.env[.properties]
 
   datasource:
     url: ${POSTGRES_URL}
@@ -81,7 +85,7 @@ llm:
     rag-generation-model: ${OLLAMA_RAG_GENERATION_MODEL}
     rag-embedding-model: ${OLLAMA_EMBEDDING_MODEL}
     moderation-max-tokens: ${OLLAMA_MODERATION_MAX_TOKENS}
-    rag-max-tokens: ${OLLAMA__RAG_MAX_TOKENS}
+    rag-max-tokens: ${OLLAMA_RAG_MAX_TOKENS}
     moderation-context: ${OLLAMA_MODERATION_CTX}
     rag-context: ${OLLAMA_RAG_CTX}
     keep-alive: ${OLLAMA_KEEP_ALIVE}

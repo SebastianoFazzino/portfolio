@@ -1,0 +1,41 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - internal
+
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: ollama-init
+    depends_on:
+      - ollama
+    volumes:
+      - ollama:/root/.ollama
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+      OLLAMA_MODEL: ${OLLAMA_MODEL}
+      OLLAMA_RAG_GENERATION_MODEL: ${OLLAMA_RAG_GENERATION_MODEL}
+    entrypoint: [ "/bin/sh", "-lc" ]
+    command: >
+      "
+        echo 'Waiting for Ollama...' &&
+        until ollama list >/dev/null 2>&1; do sleep 1; done &&
+        echo 'Pulling models...' &&
+        ollama pull $OLLAMA_MODEL &&
+        ollama pull $OLLAMA_RAG_GENERATION_MODEL &&
+        echo 'Done.'
+      "
+    restart: "no"
+    networks:
+      - internal
+
+volumes:
+  ollama:
+
+networks:
+  internal:
