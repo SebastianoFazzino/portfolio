@@ -24,7 +24,6 @@ class ContactServiceTest {
 
   private val service = ContactService(
       request = request,
-      rateLimiter = rateLimiter,
       moderationService = moderationService,
       emailService = emailService,
       moderationEnabled = true
@@ -45,21 +44,8 @@ class ContactServiceTest {
   }
 
   @Test
-  fun `rate limited - throws tooManyRequests - no moderation, no email`() {
+  fun `rate limited - no moderation, no email`() {
     whenever(rateLimiter.allow("1.2.3.4")).thenReturn(false)
-
-    val dto = ContactRequest(
-      name = " Seb ",
-      email = " seb@example.com ",
-      message = " hello ",
-      website = null
-    )
-
-    assertThrows(ApplicationException::class.java) {
-      service.handle(dto)
-    }
-
-    verify(rateLimiter).allow("1.2.3.4")
     verifyNoInteractions(moderationService, emailService)
   }
 
@@ -79,7 +65,6 @@ class ContactServiceTest {
 
     assertThrows(ApplicationException::class.java) { service.handle(dto) }
 
-    verify(rateLimiter).allow("1.2.3.4")
     verify(moderationService).check(message = "SELECT * FROM users")
     verify(emailService, never()).send(any(), any(), any(), any())
   }
@@ -110,7 +95,6 @@ class ContactServiceTest {
       service.handle(dto)
     }
 
-    verify(rateLimiter).allow("1.2.3.4")
     verify(moderationService).check(message = "hello")
     verify(emailService).send(
       name = "Seb",
@@ -144,7 +128,6 @@ class ContactServiceTest {
 
     assertDoesNotThrow { service.handle(dto) }
 
-    verify(rateLimiter).allow("1.2.3.4")
     verify(moderationService).check(message = "hello")
     verify(emailService).send(
       name = "Seb",

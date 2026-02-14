@@ -1,8 +1,9 @@
-package com.sfazzino.portfolio_api.rag
+package com.sfazzino.portfolio_api.knowledge
 
 import com.sfazzino.portfolio_api.common.BaseEntity
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import org.hibernate.annotations.Array
 
 @Entity
 @Suppress("ArrayInDataClass")
@@ -15,6 +16,6 @@ data class KnowledgeChunk(
 
     val contentHash: String,
 
-    @org.hibernate.annotations.Array(length = 384)
+    @Array(length = 384)
     val embedding: FloatArray
 ): BaseEntity()

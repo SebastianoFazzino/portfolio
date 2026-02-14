@@ -1,7 +1,7 @@
 package com.sfazzino.portfolio_api.rag
 
 import com.sfazzino.portfolio_api.TestcontainersConfiguration
-import com.sfazzino.portfolio_api.rag.repository.KnowledgeChunkRepository
+import com.sfazzino.portfolio_api.knowledge.KnowledgeChunkRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

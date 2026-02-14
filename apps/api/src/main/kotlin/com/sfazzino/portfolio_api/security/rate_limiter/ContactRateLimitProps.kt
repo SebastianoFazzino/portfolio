@@ -4,6 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(prefix = "contact.rate-limit")
 data class ContactRateLimitProps(
-  var windowMs: Long = 60_000,
-  var maxRequests: Int = 5,
+  var windowMs: Long,
+  var maxRequests: Int,
 )

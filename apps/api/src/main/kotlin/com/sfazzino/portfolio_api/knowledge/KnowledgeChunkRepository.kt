@@ -1,7 +1,7 @@
-package com.sfazzino.portfolio_api.rag.repository
+package com.sfazzino.portfolio_api.knowledge
 
-import com.sfazzino.portfolio_api.rag.dtos.KnowledgeChunkDto
-import com.sfazzino.portfolio_api.rag.dtos.KnowledgeChunkRow
+import com.sfazzino.portfolio_api.knowledge.dtos.KnowledgeChunkDto
+import com.sfazzino.portfolio_api.knowledge.dtos.KnowledgeChunkRow
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.queryForObject
 import org.springframework.security.core.context.SecurityContextHolder

@@ -88,12 +88,13 @@ class OllamaLlmClient(
     return rawText.trim()
   }
 
-  override fun generateStream(prompt: String, onToken: (String) -> Unit) {
+  override fun generateStream(prompt: String, isCancelled: () -> Boolean, onToken: (String) -> Unit) {
     generateRawStream(
       model = properties.ragGenerationModel,
       prompt = prompt.trim(),
       temperature = 0.5,
       numCtx = properties.ragContext,
+      isCancelled = isCancelled,
       onToken = onToken,
     )
   }
@@ -188,6 +189,7 @@ class OllamaLlmClient(
     prompt: String,
     temperature: Double,
     numCtx: Int,
+    isCancelled: () -> Boolean,
     onToken: (String) -> Unit,
     maxTokens: Int = properties.ragMaxTokens,
     keepAlive: String = properties.keepAlive,
@@ -210,17 +212,37 @@ class OllamaLlmClient(
       .exchange { _, response ->
         val input = response.body ?: throw unknownError("Ollama stream empty body")
 
-        input.bufferedReader().useLines { lines ->
-          lines.forEach { line ->
-            if (line.isBlank()) return@forEach
-
-            val chunk = jsonMapper.readValue(line, OllamaGenerateStreamChunk::class.java)
-
-            val text = chunk.response.orEmpty()
-            if (text.isNotBlank()) onToken(text)
-
-            if (chunk.done == true) return@useLines
+        val cancelWatcher = Thread {
+          while (!isCancelled()) {
+            try { Thread.sleep(50) } catch (_: InterruptedException) { return@Thread }
           }
+          runCatching { input.close() }
+        }.apply { isDaemon = true }
+
+        cancelWatcher.start()
+
+        try {
+          input.bufferedReader().use { reader ->
+            while (true) {
+              val line = runCatching { reader.readLine() }
+                .getOrNull() ?: return@exchange
+
+              if (line.isBlank()) continue
+
+              val chunk = runCatching {
+                jsonMapper.readValue(line, OllamaGenerateStreamChunk::class.java)
+              }.getOrNull() ?: continue
+
+              chunk.response
+                ?.takeIf { it.isNotBlank() }
+                ?.let(onToken)
+
+              if (chunk.done == true) return@exchange
+            }
+          }
+        } finally {
+          cancelWatcher.interrupt()
+          runCatching { input.close() }
         }
       }
   }

@@ -62,6 +62,14 @@ export function Chat() {
             setStatus((e as MessageEvent).data);
         });
 
+        es.addEventListener("backend_error", (e) => {
+            const data = JSON.parse((e as MessageEvent).data) as { message: string; };
+            es.close();
+            esRef.current = null;
+            setLoading(false);
+            setStatus(data.message);
+        });
+
         es.addEventListener("token", (e) => {
             const raw = (e as MessageEvent).data as string;
             const chunk = (JSON.parse(raw) as { text: string }).text;

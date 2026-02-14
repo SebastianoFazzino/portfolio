@@ -1,9 +1,8 @@
-package com.sfazzino.portfolio_api.rag.service
+package com.sfazzino.portfolio_api.knowledge.service
 
 import com.sfazzino.portfolio_api.exception.ApplicationException.Companion.invalidFile
 import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import java.io.ByteArrayInputStream
 import java.util.*
@@ -12,31 +11,13 @@ import java.util.*
 class KnowledgeIngestService(
     private val knowledgeIndexService: KnowledgeIndexService
 ) {
-    fun ingestAsync(
+    fun ingest(
         source: String,
         originalFilename: String?,
         contentType: String?,
         bytes: ByteArray
     ): UUID {
         val jobId = UUID.randomUUID()
-        ingestInBackground(
-            jobId = jobId,
-            source = source,
-            originalFilename = originalFilename,
-            contentType = contentType,
-            bytes = bytes
-        )
-        return jobId
-    }
-
-    @Async("knowledgeIngestExecutor")
-    fun ingestInBackground(
-        jobId: UUID,
-        source: String,
-        originalFilename: String?,
-        contentType: String?,
-        bytes: ByteArray
-    ) {
         try {
             val extractedText = extractText(
                 originalFilename = originalFilename,
@@ -53,6 +34,7 @@ class KnowledgeIngestService(
         } catch (ex: Exception) {
             log.warn( "Knowledge ingest failed jobId=$jobId source=$source", ex)
         }
+        return jobId
     }
 
     fun extractText(originalFilename: String?, contentType: String?, bytes: ByteArray): String {

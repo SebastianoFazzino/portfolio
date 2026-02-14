@@ -1,6 +1,7 @@
 package com.sfazzino.portfolio_api.security
 
 import com.sfazzino.portfolio_api.security.api_key.ApiKeyAuthFilter
+import com.sfazzino.portfolio_api.security.rate_limiter.RateLimitFilter
 import jakarta.servlet.DispatcherType
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class WebSecurityConfig(
+    private val rateLimitFilter: RateLimitFilter,
     private val apiKeyAuthFilter: ApiKeyAuthFilter
 ) {
     @Bean
@@ -35,6 +37,7 @@ class WebSecurityConfig(
                     .anyRequest().authenticated()
             }
 
+            .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter::class.java)
             .addFilterBefore(apiKeyAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
 
         return http.build()
