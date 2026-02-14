@@ -30,8 +30,8 @@ services:
         echo 'Waiting for Ollama...' &&
         until ollama list >/dev/null 2>&1; do sleep 1; done &&
         echo 'Pulling models...' &&
-        ollama pull llama3.2:1b &&
-        ollama pull nomic-embed-text &&
+        ollama pull $OLLAMA_MODEL &&
+        ollama pull $OLLAMA_RAG_GENERATION_MODEL &&
         echo 'Done.'
       "
     restart: "no"
