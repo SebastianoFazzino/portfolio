@@ -165,6 +165,12 @@ npm start
 
 ---
 
+Test:
+
+```bash
+npx playwright test
+```
+
 ## License
 
 This project is released under the **MIT License**.
