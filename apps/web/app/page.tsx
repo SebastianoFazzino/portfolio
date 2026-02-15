@@ -5,11 +5,14 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Sebastiano Fazzino — Software Engineer',
+  description:
+    'Explore my work, experience, and system design approach across backend and full-stack engineering.',
 };
 
 export default function Home() {
   return (
     <>
+      <h1 className="sr-only">Full-stack software engineer building reliable systems</h1>
       <Section>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Text */}
