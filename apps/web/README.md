@@ -21,6 +21,7 @@ The goal of the project is not to showcase every technology I know, but to prese
 ## Tech stack
 
 ### Frontend
+
 - **Next.js** (App Router)
 - React Server Components where possible
 - Minimal client-side JavaScript
@@ -28,6 +29,7 @@ The goal of the project is not to showcase every technology I know, but to prese
 - No component libraries
 
 ### Styling
+
 - Dark-only theme
 - Subtle accent color
 - Simple layout primitives
@@ -52,6 +54,7 @@ The goal of the test suite is not exhaustive coverage, but **high-signal guarant
 - Core interactions work across browsers (Chromium, WebKit, mobile Safari where enabled)
 
 Tests are written to reflect **real user behavior**, not implementation details:
+
 - No CSS selectors or class names are asserted
 - Elements are located by role, accessible name, or semantic structure
 - Tests avoid timing-based assumptions and brittle waits
@@ -60,7 +63,7 @@ Tests are written to reflect **real user behavior**, not implementation details:
 
 The test suite is intentionally small and focused:
 
-- Tests validate *outcomes*, not animations or layout details
+- Tests validate _outcomes_, not animations or layout details
 - Scroll and navigation behavior is verified in a cross-browser-safe way
 - The suite is designed to be boring, fast, and reliable
 
@@ -76,14 +79,16 @@ The site includes a **server-mediated contact form** designed with security and 
 
 Browser  
 → Next.js API route (`/api/contact`)  
-→ Backend service  
-- message moderation  
-- rate limiting  
-- email delivery  
+→ Backend service
+
+- message moderation
+- rate limiting
+- email delivery
 
 ### Responsibilities
 
 #### Frontend (Next.js)
+
 - Collects user input
 - Submits the form to a server-side API route
 - Displays success or error messages returned by the server
@@ -91,6 +96,7 @@ Browser
 - Never has access to secrets or API keys
 
 #### Backend service
+
 - Performs **message moderation**
 - Enforces **rate limiting**
 - Sends transactional emails
