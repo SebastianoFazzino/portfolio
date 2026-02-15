@@ -138,46 +138,6 @@ export default function Home() {
         </ul>
       </Section>
 
-      {/*<Section id="projects">*/}
-      {/*  <h2>This site</h2>*/}
-
-      {/*  <p className="mt-6 max-w-3xl text-white/80">*/}
-      {/*    This site includes a lightweight AI assistant designed to answer questions about my*/}
-      {/*    background, experience, and projects. It is fully self-hosted and runs on my own*/}
-      {/*    infrastructure, using retrieval-augmented generation (RAG) over curated knowledge rather*/}
-      {/*    than a generic chatbot.*/}
-      {/*  </p>*/}
-
-      {/*  <p className="mt-4 max-w-3xl text-white/60">*/}
-      {/*    The system is intentionally constrained, moderated, and resource-aware, prioritizing*/}
-      {/*    predictable behavior, data safety, and clear boundaries over novelty.*/}
-      {/*  </p>*/}
-
-      {/*  <p className="mt-4 max-w-3xl text-white/60">*/}
-      {/*    I built it to demonstrate how I approach real-world system design: ownership, trade-offs,*/}
-      {/*    and reliability over hype.*/}
-      {/*  </p>*/}
-
-      {/*  <div className="mt-10 max-w-3xl">*/}
-      {/*    <h4 className="text-white/50 text-sm uppercase tracking-wide">Open Source</h4>*/}
-
-      {/*    <p className="mt-4 text-white/70">*/}
-      {/*      The full source code for this project is available under the MIT License. You are*/}
-      {/*      welcome to fork it, reuse parts of it, or adapt it for your own portfolio.*/}
-      {/*    </p>*/}
-
-      {/*    <a*/}
-      {/*      href="https://github.com/SebastianoFazzino/portfolio"*/}
-      {/*      target="_blank"*/}
-      {/*      rel="noreferrer"*/}
-      {/*      className="group mt-4 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-(--accent)"*/}
-      {/*    >*/}
-      {/*      <span className="text-white/40 transition-colors group-hover:text-(--accent)">→</span>*/}
-      {/*      <span>View on GitHub</span>*/}
-      {/*    </a>*/}
-      {/*  </div>*/}
-      {/*</Section>*/}
-
       <Section id="projects">
         <h2>Projects</h2>
 
