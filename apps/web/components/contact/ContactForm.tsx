@@ -110,8 +110,8 @@ export function ContactForm({ onSentAction }: ContactFormProps) {
         name="message"
         required
         placeholder="Message"
-        rows={6}
-        className="input-accent w-full rounded px-3 py-2"
+        rows={4}
+        className="resize-none input-accent w-full rounded px-3 py-2"
       />
 
       <div className="flex items-center gap-4">

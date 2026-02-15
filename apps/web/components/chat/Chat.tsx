@@ -105,7 +105,7 @@ export function Chat() {
   }
 
   return (
-    <div className="border border-white/10 rounded-lg p-6 bg-black/40">
+    <div className="border border-white/10 rounded-lg p-4 sm:p-6 bg-black/40">
       <div className="mt-2 max-w-sm">
         <div className="flex items-start gap-2">
           <p className="chat text-xs text-white/50 leading-relaxed">
@@ -154,6 +154,7 @@ export function Chat() {
           className={`
                         w-full min-h-20
                         rounded-md
+                        resize-none
                         bg-black/60
                         border border-white/10
                         p-3

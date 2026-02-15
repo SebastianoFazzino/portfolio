@@ -54,13 +54,15 @@ export function ContactModal() {
           onClick={(event) => {
             if (event.target === event.currentTarget) closeModal();
           }}
-          className="fixed inset-0 m-auto w-full max-w-2xl rounded-lg bg-[#0b0b0b] text-white border border-white/10 p-0 backdrop:bg-black/70"
+          className="fixed inset-0 m-auto w-[calc(100%-2rem)] max-w-2xl rounded-lg bg-[#0b0b0b] text-white border border-white/10 p-0 backdrop:bg-black/70"
         >
           <div className="p-6 sm:p-8">
             <div className="flex items-start justify-between gap-6">
               <div>
                 <p className="mt-2 text-sm text-white/50">
-                  Send a message. It goes directly to my inbox.
+                  Send a message.
+                  <br />
+                  It goes directly to my inbox.
                 </p>
               </div>
 
