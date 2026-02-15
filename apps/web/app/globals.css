@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ===== Design tokens (dark only) ===== */
 :root {
@@ -22,8 +22,16 @@ body {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont,
-  "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Arial, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Ubuntu,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
 }
 
 /* ===== Typography defaults ===== */
@@ -37,7 +45,7 @@ h2 {
 }
 
 h2::after {
-  content: "";
+  content: '';
   display: block;
   width: 32px;
   height: 2px;
@@ -54,7 +62,7 @@ p {
 }
 
 .chat p {
-  @apply text-sm leading-snug
+  @apply text-sm leading-snug;
 }
 
 /* === Dark input focus (accent) === */

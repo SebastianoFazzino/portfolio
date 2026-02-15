@@ -1,19 +1,19 @@
 /* base nav link */
 .nav-link {
-    position: relative;
+  position: relative;
 }
 
 /* active (in-view) link */
 .nav-link.is-active {
-    color: white;
+  color: white;
 }
 
 .nav-link.is-active::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 100%;
-    height: 2px;
-    background-color: var(--accent);
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background-color: var(--accent);
 }
