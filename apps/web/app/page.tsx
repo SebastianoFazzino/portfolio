@@ -187,7 +187,7 @@ export default function Home() {
         <div className="pb-40">
           <h2>Connect</h2>
 
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl">
+          <div className="mt-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl px-4 md:px-0">
             {/* Left: presence */}
             <div>
               <p className="text-white/70 max-w-md">
