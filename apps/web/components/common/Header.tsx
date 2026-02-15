@@ -3,7 +3,7 @@
 import React from 'react';
 import { NavButton } from '@/components/common/NavButton';
 
-const sectionIds = ['about', 'experience', 'certifications', 'this-site', 'connect'] as const;
+const sectionIds = ['about', 'experience', 'certifications', 'projects', 'connect'] as const;
 
 function scrollToTop() {
   const currentScrollY = window.scrollY;
@@ -79,9 +79,9 @@ export function Header() {
             isActive={activeSectionId === 'certifications'}
           />
           <NavButton
-            label="This site"
-            targetId="this-site"
-            isActive={activeSectionId === 'this-site'}
+            label="Projects"
+            targetId="projects"
+            isActive={activeSectionId === 'projects'}
           />
           <NavButton label="Connect" targetId="connect" isActive={activeSectionId === 'connect'} />
         </nav>

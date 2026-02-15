@@ -6,6 +6,6 @@ test('main navigation scrolls to sections', async ({ page }) => {
   await page.getByRole('button', { name: 'About' }).click();
   await expect(page.locator('#about')).toBeVisible();
 
-  await page.getByRole('button', { name: 'This site' }).click();
-  await expect(page.locator('#this-site')).toBeVisible();
+  await page.getByRole('button', { name: 'Projects' }).click();
+  await expect(page.locator('#projects')).toBeVisible();
 });

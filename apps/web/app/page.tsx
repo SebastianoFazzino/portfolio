@@ -20,8 +20,8 @@ export default function Home() {
             <h2>Who am I</h2>
 
             <p className="mt-6 max-w-2xl text-lg">
-              Senior software engineer focused on designing and operating systems that are reliable,
-              observable, and built to last.
+              Senior software engineer focused on building backend services that are clear,
+              reliable, and maintainable.
             </p>
 
             <p className="mt-4 text-sm text-white/60 max-w-2xl">
@@ -30,8 +30,8 @@ export default function Home() {
             </p>
 
             <p className="mt-4 text-sm text-white/50 max-w-2xl">
-              This site is a small, personal project — a place to document how I build, think, and
-              iterate on software.
+              This site is a small personal project where I share how I build, think, and improve
+              systems.
             </p>
           </div>
 
@@ -73,8 +73,13 @@ export default function Home() {
         </p>
 
         <p className="mt-4 max-w-3xl">
-          I’ve worked in iGaming, fintech, and crypto, on systems with high throughput, sensitive
-          data, strict security requirements, and multiple external integrations.
+          I’ve worked across iGaming, Fintech, and Crypto, on systems with high throughput,
+          sensitive data, strict security requirements, and multiple external integrations.
+        </p>
+
+        <p className="mt-4 max-w-3xl">
+          Lately I’ve been exploring DevOps and practical AI, mostly by self-hosting, automating
+          deployments, and building small experiments like the assistant on this site.
         </p>
       </Section>
 
@@ -83,24 +88,30 @@ export default function Home() {
 
         <div className="mt-8 space-y-10 max-w-3xl">
           <div>
-            <h3>Senior Software Engineer — iGaming</h3>
+            <h3>Software Engineer — Yolo (iGaming)</h3>
+            <p className="mt-1 text-sm text-white/40">Oct 2024 — Present · Tallinn</p>
             <p className="mt-2 text-sm text-white/50">
-              Backend & full-stack · Java / Kotlin · Angular · MongoDB · PostgreSQL · Redis
+              Backend & full-stack · Java / Kotlin · Spring Boot · Angular · MongoDB · PostgreSQL ·
+              Redis
             </p>
             <p className="mt-4">
-              Worked on core backend services in a regulated environment, with a focus on data
-              consistency, system reliability, and day-to-day operational stability.
+              I work mainly on a core backend service responsible for player transactions and
+              integrations with external partners. My focus is keeping things reliable in
+              production: data consistency, operational stability, and changes that are easy to
+              reason about.
             </p>
           </div>
 
           <div>
-            <h3>Software Engineer — Crypto</h3>
+            <h3>Java Software Developer — Swag (crypto / fintech)</h3>
+            <p className="mt-1 text-sm text-white/40">Feb 2021 — Oct 2024 · Tallinn</p>
             <p className="mt-2 text-sm text-white/50">
-              Backend · Java · Kafka · MongoDB · PostgreSQL · GCP · Docker · Kubernetes
+              Backend · Java · Spring Boot · Kafka · PostgreSQL · GCP · Docker · Kubernetes
             </p>
             <p className="mt-4">
-              Built and evolved services integrating with external systems, handling asynchronous
-              processing and data flows across multiple components.
+              I worked on a microservices setup where services communicated over REST and Kafka.
+              Most of my work was on backend systems around payments and order flows, plus
+              integrations with internal and external services.
             </p>
           </div>
         </div>
@@ -109,56 +120,106 @@ export default function Home() {
       <Section id="certifications">
         <h2>Certifications</h2>
 
+        <p className="mt-4 max-w-2xl text-sm text-white/50">
+          A few courses and certifications I’ve completed recently.
+        </p>
+
         <ul className="mt-6 space-y-3 max-w-2xl text-white/70">
-          <li>Developing Applications with Google Cloud — Google</li>
-          <li>Java Programming and Software Engineering — Duke University</li>
+          <li>Developing Applications with Google Cloud Specialization — Google (Apr 2024)</li>
+          <li>Java Programming and Software Engineering — Duke University (Jan 2023)</li>
+          <li>IBM Data Science Professional Certificate — IBM (Aug 2020)</li>
         </ul>
 
         <h4 className="mt-10 text-white/50 text-sm uppercase tracking-wide">In progress</h4>
 
         <ul className="mt-4 space-y-3 max-w-2xl text-white/50">
-          <li>AWS Solutions Architect – Associate</li>
-          <li>AWS Certified AI - Practitioner</li>
+          <li>AWS Solutions Architect — Associate</li>
+          <li>AWS Certified AI Practitioner</li>
         </ul>
       </Section>
 
-      <Section id="this-site">
-        <h2>This site</h2>
+      {/*<Section id="projects">*/}
+      {/*  <h2>This site</h2>*/}
 
-        <p className="mt-6 max-w-3xl text-white/80">
-          This site includes a lightweight AI assistant designed to answer questions about my
-          background, experience, and projects. It is fully self-hosted and runs on my own
-          infrastructure, using retrieval-augmented generation (RAG) over curated knowledge rather
-          than a generic chatbot.
-        </p>
+      {/*  <p className="mt-6 max-w-3xl text-white/80">*/}
+      {/*    This site includes a lightweight AI assistant designed to answer questions about my*/}
+      {/*    background, experience, and projects. It is fully self-hosted and runs on my own*/}
+      {/*    infrastructure, using retrieval-augmented generation (RAG) over curated knowledge rather*/}
+      {/*    than a generic chatbot.*/}
+      {/*  </p>*/}
 
-        <p className="mt-4 max-w-3xl text-white/60">
-          The system is intentionally constrained, moderated, and resource-aware, prioritizing
-          predictable behavior, data safety, and clear boundaries over novelty.
-        </p>
+      {/*  <p className="mt-4 max-w-3xl text-white/60">*/}
+      {/*    The system is intentionally constrained, moderated, and resource-aware, prioritizing*/}
+      {/*    predictable behavior, data safety, and clear boundaries over novelty.*/}
+      {/*  </p>*/}
 
-        <p className="mt-4 max-w-3xl text-white/60">
-          I built it to demonstrate how I approach real-world system design: ownership, trade-offs,
-          and reliability over hype.
-        </p>
+      {/*  <p className="mt-4 max-w-3xl text-white/60">*/}
+      {/*    I built it to demonstrate how I approach real-world system design: ownership, trade-offs,*/}
+      {/*    and reliability over hype.*/}
+      {/*  </p>*/}
 
-        <div className="mt-10 max-w-3xl">
-          <h4 className="text-white/50 text-sm uppercase tracking-wide">Open Source</h4>
+      {/*  <div className="mt-10 max-w-3xl">*/}
+      {/*    <h4 className="text-white/50 text-sm uppercase tracking-wide">Open Source</h4>*/}
 
-          <p className="mt-4 text-white/70">
-            The full source code for this project is available under the MIT License. You are
-            welcome to fork it, reuse parts of it, or adapt it for your own portfolio.
-          </p>
+      {/*    <p className="mt-4 text-white/70">*/}
+      {/*      The full source code for this project is available under the MIT License. You are*/}
+      {/*      welcome to fork it, reuse parts of it, or adapt it for your own portfolio.*/}
+      {/*    </p>*/}
 
-          <a
-            href="https://github.com/SebastianoFazzino/portfolio"
-            target="_blank"
-            rel="noreferrer"
-            className="group mt-4 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-(--accent)"
-          >
-            <span className="text-white/40 transition-colors group-hover:text-(--accent)">→</span>
-            <span>View on GitHub</span>
-          </a>
+      {/*    <a*/}
+      {/*      href="https://github.com/SebastianoFazzino/portfolio"*/}
+      {/*      target="_blank"*/}
+      {/*      rel="noreferrer"*/}
+      {/*      className="group mt-4 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-(--accent)"*/}
+      {/*    >*/}
+      {/*      <span className="text-white/40 transition-colors group-hover:text-(--accent)">→</span>*/}
+      {/*      <span>View on GitHub</span>*/}
+      {/*    </a>*/}
+      {/*  </div>*/}
+      {/*</Section>*/}
+
+      <Section id="projects">
+        <h2>Projects</h2>
+
+        <div className="mt-8 max-w-3xl space-y-10">
+          <div>
+            <h3>Portfolio + AI assistant</h3>
+            <p className="mt-2 text-sm text-white/50">
+              Next.js · Kotlin · Self-hosted · PgVector · Lightweight RAG
+            </p>
+
+            <p className="mt-4 text-white/80">
+              This site is a small, self-hosted project where I share how I build and iterate on
+              software. It also includes a lightweight AI assistant that can answer questions about
+              my background, experience, and projects using retrieval over curated content.
+            </p>
+
+            <p className="mt-4 text-white/60">
+              I built it to show practical system design work: clear boundaries, predictable
+              behavior, and an approach that’s mindful about data safety and operational overhead.
+            </p>
+
+            <div className="mt-8">
+              <h4 className="text-white/50 text-sm uppercase tracking-wide">Open Source</h4>
+
+              <p className="mt-4 text-white/70">
+                The full source code for this project is available under the MIT License. You are
+                welcome to fork it, reuse parts of it, or adapt it for your own portfolio.
+              </p>
+
+              <a
+                href="https://github.com/SebastianoFazzino/portfolio"
+                target="_blank"
+                rel="noreferrer"
+                className="group mt-4 inline-flex items-center gap-2 text-white/60 transition-colors hover:text-(--accent)"
+              >
+                <span className="text-white/40 transition-colors group-hover:text-(--accent)">
+                  →
+                </span>
+                <span>View on GitHub</span>
+              </a>
+            </div>
+          </div>
         </div>
       </Section>
 

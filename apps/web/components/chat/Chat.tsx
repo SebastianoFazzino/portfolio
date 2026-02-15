@@ -134,6 +134,8 @@ export function Chat() {
             >
               This assistant responds using my curated personal knowledge base.
               <br />
+              Runs on my Raspberry Pi — response time can vary.
+              <br />
               It does not collect, store, or retain personal information.
               <br />
               For direct communication, please use the &#34;connect&#34; form.
