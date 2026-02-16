@@ -20,7 +20,7 @@ export function ChatLauncher() {
                     sm:bottom-6 sm:right-6
                     h-14 w-14 sm:h-16 sm:w-16 rounded-full
                     border border-white/10
-                    bg-black/60 backdrop-blur
+                    bg-[#0b0b0b] backdrop-blur
                     text-2xl text-white/70
                     hover:text-(--accent) hover:border-(--accent)
                     cursor-pointer
@@ -41,10 +41,9 @@ export function ChatLauncher() {
                       w-auto sm:w-105
                       rounded-xl
                       border border-white/10
-                      bg-black/80
+                      bg-[#0b0b0b]
                       backdrop-blur
                       shadow-xl
-                      overflow-hidden
                     "
           style={{ maxHeight: 'calc(100dvh - 7.5rem)' }}
         >
@@ -61,10 +60,7 @@ export function ChatLauncher() {
           </div>
 
           {/* INTERNAL SCROLL AREA */}
-          <div
-            className="p-3 sm:p-4 overflow-y-auto"
-            style={{ maxHeight: 'calc(100dvh - 11.5rem)' }}
-          >
+          <div className="p-3 sm:p-4" style={{ maxHeight: 'calc(100dvh - 11.5rem)' }}>
             <Chat />
           </div>
         </div>
