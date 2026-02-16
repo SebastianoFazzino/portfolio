@@ -28,7 +28,13 @@ class OllamaLlmClient(
 
   init {
     warmUp()
-    log.info("Ollama LLM Moderation Client initialized with model='{}'", properties.moderationModel)
+    log.info(
+      "Ollama LLM Client initialized (baseUrl='{}') with moderationModel='{}', ragGenerationModel='{}', ragEmbeddingModel='{}'",
+      properties.baseUrl,
+      properties.moderationModel,
+      properties.ragGenerationModel,
+      properties.ragEmbeddingModel,
+    )
   }
 
   override fun moderate(message: String): ModerationDecision {
@@ -61,9 +67,9 @@ class OllamaLlmClient(
     val request = OllamaEmbeddingsRequest(
       model = properties.ragEmbeddingModel,
       prompt = text.trim(),
-        options = OllamaEmbeddingOptions(
-            numCtx = properties.ragContext,
-        )
+      options = OllamaEmbeddingOptions(
+        numCtx = properties.ragContext
+      )
     )
 
     val response = restClient.post()
@@ -110,18 +116,15 @@ class OllamaLlmClient(
     if (!lastWarmupAt.compareAndSet(last, now)) return
 
     try {
-      val res = ping()
-      log.info("Ollama LLM warm-up completed, ping response: {}", res)
+      ping()
+      log.info("Ollama LLM warm-up completed")
     } catch (error: Exception) {
       log.warn("Ollama LLM warm-up failed", error)
     }
   }
 
-  private fun ping(): String? {
-    return restClient.get()
-      .uri(PING_ENDPOINT)
-      .retrieve()
-      .body<String>()
+  private fun ping() {
+    embed("warmup")
   }
 
   private fun composePrompt(message: String): String {
@@ -253,7 +256,6 @@ class OllamaLlmClient(
   companion object {
     private val log = LoggerFactory.getLogger(OllamaLlmClient::class.java)
 
-    private const val PING_ENDPOINT = "/api/tags"
     private const val GENERATE_ENDPOINT = "/api/generate"
     private const val EMBEDDINGS_ENDPOINT = "/api/embeddings"
 
