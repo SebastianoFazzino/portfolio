@@ -33,12 +33,25 @@ services:
     entrypoint: [ "/bin/sh", "-lc" ]
     command: >
       "
-        echo 'Waiting for Ollama...' &&
-        until wget -qO- http://ollama:11434/api/tags >/dev/null 2>&1; do sleep 1; done &&
-        echo 'Pulling models...' &&
-        ollama pull $OLLAMA_MODEL &&
-        ollama pull $OLLAMA_RAG_GENERATION_MODEL &&
-        echo 'Done.'
+        set -e;
+        echo 'Waiting for Ollama...';
+        until ollama list >/dev/null 2>&1; do sleep 1; done;
+
+        echo 'Models to pull:';
+        echo \"  OLLAMA_MODEL=$OLLAMA_MODEL\";
+        echo \"  OLLAMA_RAG_GENERATION_MODEL=$OLLAMA_RAG_GENERATION_MODEL\";
+        echo \"  OLLAMA_EMBEDDING_MODEL=$OLLAMA_EMBEDDING_MODEL\";
+
+        echo 'Pulling OLLAMA_MODEL...';
+        ollama pull \"$OLLAMA_MODEL\";
+
+        echo 'Pulling OLLAMA_RAG_GENERATION_MODEL...';
+        ollama pull \"$OLLAMA_RAG_GENERATION_MODEL\";
+
+        echo 'Pulling OLLAMA_EMBEDDING_MODEL...';
+        ollama pull \"$OLLAMA_EMBEDDING_MODEL\";
+
+        echo 'Done.';
       "
     restart: "no"
     networks:
