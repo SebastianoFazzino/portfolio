@@ -60,7 +60,10 @@ class OllamaLlmClient(
   override fun embed(text: String): FloatArray {
     val request = OllamaEmbeddingsRequest(
       model = properties.ragEmbeddingModel,
-      prompt = text.trim()
+      prompt = text.trim(),
+        options = OllamaEmbeddingOptions(
+            numCtx = properties.ragContext,
+        )
     )
 
     val response = restClient.post()
