@@ -9,6 +9,7 @@ export function Chat() {
   const [loading, setLoading] = useState(false);
   const [dotCount, setDotCount] = useState(0);
   const [hasStreamStarted, setHasStreamStarted] = useState(false);
+  const [disclaimerOpen, setDisclaimerOpen] = useState(false);
 
   const esRef = useRef<EventSource | null>(null);
   const streamStartedRef = useRef(false);
@@ -105,7 +106,7 @@ export function Chat() {
   }
 
   return (
-    <div className="border border-white/10 rounded-lg p-4 sm:p-6 bg-black/40">
+    <div className="border border-white/10 rounded-lg p-4 sm:p-6 bg-[#0b0b0b]">
       <div className="mt-2 max-w-sm">
         <div className="flex items-start gap-2">
           <p className="chat text-xs text-white/50 leading-relaxed">
@@ -118,27 +119,43 @@ export function Chat() {
               type="button"
               className="text-white/40 hover:text-white/70 focus:outline-none"
               aria-label="Chat disclaimer"
+              aria-expanded={disclaimerOpen}
+              onClick={() => setDisclaimerOpen((v) => !v)}
             >
               ⓘ
             </button>
+
             <div
-              className="
-                                absolute right-0 bottom-6 z-50
-                                hidden w-72
-                                rounded-md border border-white/10
-                                bg-black/90 p-3
-                                text-xs text-white/70
-                                shadow-lg
-                                group-hover:block
-                            "
+              className={`
+                          absolute right-0 bottom-6 z-9999
+                          w-72
+                          rounded-md border border-white/10
+                          bg-[#080808] p-3
+                          text-xs text-white/70
+                          shadow-lg
+                          ${disclaimerOpen ? 'block' : 'hidden group-hover:block'}
+                        `}
             >
-              This assistant responds using my curated personal knowledge base.
-              <br />
-              Runs on my Raspberry Pi — response time can vary.
-              <br />
-              It does not collect, store, or retain personal information.
-              <br />
-              For direct communication, please use the &#34;connect&#34; form.
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  This assistant responds using my curated personal knowledge base.
+                  <br />
+                  Runs on my Raspberry Pi — response time can vary.
+                  <br />
+                  It does not collect, store, or retain personal information.
+                  <br />
+                  For direct communication, please use the &#34;connect&#34; form.
+                </div>
+
+                <button
+                  type="button"
+                  className="text-white/40 hover:text-white"
+                  aria-label="Close disclaimer"
+                  onClick={() => setDisclaimerOpen(false)}
+                >
+                  ✕
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -152,19 +169,20 @@ export function Chat() {
           onKeyDown={onQuestionKeyDown}
           placeholder="Ask me anything..."
           className={`
-                        w-full min-h-20
-                        rounded-md
-                        resize-none
-                        bg-black/60
-                        border border-white/10
-                        p-3
-                        text-sm
-                        text-white
-                        placeholder-white/40
-                        focus:outline-none
-                        focus:ring-1
-                        focus:ring-(--accent)
-                        ${loading ? 'opacity-70' : ''}
+                      w-full min-h-20
+                      rounded-md
+                      resize-none
+                      input-accent
+                      bg-[#0b0b0b]
+                      border border-white/10
+                      p-3
+                      text-sm
+                      text-white
+                      placeholder-white/40
+                      focus:outline-none
+                      focus:ring-1
+                      focus:ring-(--accent)
+                      ${loading ? 'opacity-70' : ''}
                     `}
         />
 
@@ -173,14 +191,14 @@ export function Chat() {
             onClick={ask}
             disabled={!question.trim() || loading}
             className="
-                            inline-flex items-center justify-center
-                            rounded-md
-                            bg-(--accent)
-                            px-4 py-2
-                            text-sm font-medium
-                            text-black
-                            disabled:opacity-50
-                        "
+                       inline-flex items-center justify-center
+                       rounded-md
+                       bg-(--accent)
+                       px-4 py-2
+                       text-sm font-medium
+                       text-black
+                       disabled:opacity-50
+                      "
           >
             Ask
           </button>
@@ -189,15 +207,15 @@ export function Chat() {
             <button
               onClick={clearQuestion}
               className="
-                                inline-flex items-center justify-center
-                                rounded-md
-                                border border-white/10
-                                bg-black/60
-                                px-4 py-2
-                                text-sm font-medium
-                                text-white/80
-                                hover:border-white/30 hover:text-white
-                            "
+                          inline-flex items-center justify-center
+                          rounded-md
+                          border border-white/10
+                          bg-black/60
+                          px-4 py-2
+                          text-sm font-medium
+                          text-white/80
+                          hover:border-white/30 hover:text-white
+                         "
             >
               Clear
             </button>
@@ -207,15 +225,15 @@ export function Chat() {
             <button
               onClick={cancel}
               className="
-                                inline-flex items-center justify-center
-                                rounded-md
-                                border border-white/10
-                                bg-black/60
-                                px-4 py-2
-                                text-sm font-medium
-                                text-white/80
-                                hover:border-rose-500 hover:text-rose-500
-                            "
+                         inline-flex items-center justify-center
+                         rounded-md
+                         border border-white/10
+                         bg-black/60
+                         px-4 py-2
+                         text-sm font-medium
+                         text-white/80
+                         hover:border-rose-500 hover:text-rose-500
+                        "
             >
               Cancel
             </button>
@@ -230,7 +248,7 @@ export function Chat() {
         </div>
 
         {hasStreamStarted && answer !== null && (
-          <div className="mt-4 rounded-md border border-white/10 bg-black/60 p-4">
+          <div className="mt-4 rounded-md border border-white/10 bg-[#0b0b0b] p-4 max-h-56 sm:max-h-72 overflow-y-auto">
             <p className="text-sm text-white/80 whitespace-pre-wrap">{answer}</p>
           </div>
         )}
