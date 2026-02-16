@@ -13,6 +13,11 @@ services:
       - grafana:/var/lib/grafana
     networks:
       - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
 
   loki:
     image: grafana/loki:2.9.8
@@ -26,6 +31,11 @@ services:
       - loki:/loki
     networks:
       - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
 
   promtail:
     image: grafana/promtail:latest
@@ -38,6 +48,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
 
 
 volumes:
