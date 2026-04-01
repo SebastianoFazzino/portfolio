@@ -2,11 +2,11 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-	kotlin("jvm") version "2.3.10"
-	kotlin("plugin.jpa") version "2.3.10"
-	kotlin("plugin.spring") version "2.3.10"
+	kotlin("jvm") version "2.3.20"
+	kotlin("plugin.jpa") version "2.3.20"
+	kotlin("plugin.spring") version "2.3.20"
 
-	id("org.springframework.boot") version "4.0.2"
+	id("org.springframework.boot") version "4.0.5"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -39,8 +39,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.springframework:spring-context-support")
 
-	implementation("org.apache.tika:tika-core:3.2.3")
-	implementation("org.apache.tika:tika-parsers-standard-package:3.2.3")
+	implementation("org.apache.tika:tika-core:3.3.0")
+	implementation("org.apache.tika:tika-parsers-standard-package:3.3.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
 
