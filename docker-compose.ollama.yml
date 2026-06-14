@@ -1,0 +1,73 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    expose:
+      - "11434"
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    environment:
+      OLLAMA_HOST: "0.0.0.0:11434"
+      OLLAMA_NUM_PARALLEL: "1"
+      OLLAMA_MAX_LOADED_MODELS: "2"
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE:-10m}
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_RAG_CTX:-4096}
+    command: ["serve"]
+    networks:
+      - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: ollama-init
+    depends_on:
+      - ollama
+    volumes:
+      - ollama:/root/.ollama
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+    entrypoint: ["/bin/sh", "-lc"]
+    command: >
+      "
+        set -e;
+        echo 'Waiting for Ollama...';
+        until ollama list >/dev/null 2>&1; do sleep 1; done;
+
+        echo 'Models to pull:';
+        echo \"  OLLAMA_MODEL=$OLLAMA_MODEL\";
+        echo \"  OLLAMA_RAG_GENERATION_MODEL=$OLLAMA_RAG_GENERATION_MODEL\";
+        echo \"  OLLAMA_EMBEDDING_MODEL=$OLLAMA_EMBEDDING_MODEL\";
+
+        echo 'Pulling OLLAMA_MODEL...';
+        ollama pull \"$OLLAMA_MODEL\";
+
+        echo 'Pulling OLLAMA_RAG_GENERATION_MODEL...';
+        ollama pull \"$OLLAMA_RAG_GENERATION_MODEL\";
+
+        echo 'Pulling OLLAMA_EMBEDDING_MODEL...';
+        ollama pull \"$OLLAMA_EMBEDDING_MODEL\";
+
+        echo 'Done.';
+      "
+    restart: "no"
+    networks:
+      - internal
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+volumes:
+  ollama:
+
+networks:
+  internal:
+    name: internal
