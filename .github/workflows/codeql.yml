@@ -30,23 +30,26 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: github/codeql-action/init@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          languages: javascript-typescript
+          version: 10
 
       - uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: npm
-          cache-dependency-path: apps/web/package-lock.json
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: javascript-typescript
 
       - name: Install deps (web)
-        working-directory: apps/web
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Build (web)
-        working-directory: apps/web
-        run: npm run build
+        run: pnpm --filter web build
 
       - uses: github/codeql-action/analyze@v4
 
