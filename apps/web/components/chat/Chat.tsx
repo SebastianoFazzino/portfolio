@@ -140,7 +140,7 @@ export function Chat() {
                 <div>
                   This assistant responds using my curated personal knowledge base.
                   <br />
-                  Runs on my Raspberry Pi — response time can vary.
+                  Runs on my Home Server — response time can vary.
                   <br />
                   It does not collect, store, or retain personal information.
                   <br />

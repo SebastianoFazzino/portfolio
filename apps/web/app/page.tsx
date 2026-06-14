@@ -89,7 +89,7 @@ export default function Home() {
         <div className="mt-8 space-y-10 max-w-3xl">
           <div>
             <h3>Software Engineer — Yolo (iGaming)</h3>
-            <p className="mt-1 text-sm text-white/40">Oct 2024 — Present · Tallinn</p>
+            <p className="mt-1 text-sm text-white/40">Oct 2024 — Apr 2026 · Tallinn</p>
             <p className="mt-2 text-sm text-white/50">
               Backend & full-stack · Java / Kotlin · Spring Boot · Angular · MongoDB · PostgreSQL ·
               Redis
@@ -134,7 +134,7 @@ export default function Home() {
 
         <ul className="mt-4 space-y-3 max-w-2xl text-white/50">
           <li>AWS Solutions Architect — Associate</li>
-          <li>AWS Certified AI Practitioner</li>
+          <li>Confluent Certified Developer for Apache Kafka</li>
         </ul>
       </Section>
 
