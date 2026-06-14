@@ -66,8 +66,7 @@ services:
     container_name: portfolio-web
     restart: unless-stopped
     build:
-      context: .
-      dockerfile: apps/web/Dockerfile
+      context: ./apps/web
     environment:
       BACKEND_BASE_URL: "http://api:9909/api"
       API_KEY: ${API_KEY}
