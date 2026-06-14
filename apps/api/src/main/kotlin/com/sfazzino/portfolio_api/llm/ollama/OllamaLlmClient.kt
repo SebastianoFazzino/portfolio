@@ -87,7 +87,7 @@ class OllamaLlmClient(
     val rawText = generateRawText(
       model = properties.ragGenerationModel,
       prompt = prompt.trim(),
-      temperature = 0.5,
+      temperature = 0.1,
       maxTokens = properties.ragMaxTokens,
       numCtx = properties.ragContext,
       format = null,

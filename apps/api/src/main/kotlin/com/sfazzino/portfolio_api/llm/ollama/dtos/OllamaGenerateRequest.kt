@@ -7,6 +7,7 @@ data class OllamaGenerateRequest(
     val prompt: String,
     val stream: Boolean,
     val format: String?,
+    val think: Boolean = false,
     @field:JsonProperty("keep_alive")
     val keepAlive: String,
     val options: OllamaOptions,

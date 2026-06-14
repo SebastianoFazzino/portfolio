@@ -6,7 +6,7 @@ plugins {
 	kotlin("plugin.jpa") version "2.3.10"
 	kotlin("plugin.spring") version "2.3.10"
 
-	id("org.springframework.boot") version "4.0.2"
+	id("org.springframework.boot") version "4.0.7"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -39,18 +39,18 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.springframework:spring-context-support")
 
-	implementation("org.apache.tika:tika-core:3.2.3")
-	implementation("org.apache.tika:tika-parsers-standard-package:3.2.3")
+	implementation("org.apache.tika:tika-core:3.3.1")
+	implementation("org.apache.tika:tika-parsers-standard-package:3.3.1")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("tools.jackson.module:jackson-module-kotlin")
 
 	implementation("org.flywaydb:flyway-database-postgresql")
 	implementation("org.hibernate.orm:hibernate-vector")
 	runtimeOnly("org.postgresql:postgresql")
+	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-security-test")
-	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-jdbc-test")
 
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
@@ -58,7 +58,7 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 
 	testImplementation("org.mockito:mockito-core")
-	testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:6.3.0")
 
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")

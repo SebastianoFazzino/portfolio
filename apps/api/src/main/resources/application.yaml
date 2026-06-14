@@ -15,6 +15,11 @@ spring:
     import:
       - optional:file:.env[.properties]
       - optional:file:apps/api/.env[.properties]
+  docker:
+    compose:
+      enabled: ${KEEPY_DOCKER_COMPOSE_ENABLED:false}
+      file: apps/api/compose-local.yml
+      lifecycle-management: start-and-stop
 
   datasource:
     url: ${POSTGRES_URL}
@@ -81,7 +86,7 @@ contact:
 
 llm:
   ollama:
-    base-url: ${OLLAMA_BASE_URL:http://ollama:11434}
+    base-url: ${OLLAMA_BASE_URL}
     moderation-model: ${OLLAMA_MODEL}
     rag-generation-model: ${OLLAMA_RAG_GENERATION_MODEL}
     rag-embedding-model: ${OLLAMA_EMBEDDING_MODEL}
