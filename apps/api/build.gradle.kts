@@ -2,18 +2,18 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 plugins {
-	kotlin("jvm") version "2.3.10"
-	kotlin("plugin.jpa") version "2.3.10"
-	kotlin("plugin.spring") version "2.3.10"
+	kotlin("jvm") version "2.3.20"
+	kotlin("plugin.jpa") version "2.3.20"
+	kotlin("plugin.spring") version "2.3.20"
 
 	id("org.springframework.boot") version "4.0.7"
 	id("io.spring.dependency-management") version "1.1.7"
 }
 
-extra["kotlinVersion"] = "2.3.10"
+extra["kotlinVersion"] = "2.3.20"
 
 group = "com.sfazzino"
-version = "0.0.1"
+version = "0.0.2"
 description = "Portfolio backend API"
 
 java {

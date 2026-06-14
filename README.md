@@ -44,7 +44,7 @@ adaptable.
 - **Explicit moderation and guardrails**
 - **AI-assisted contact form moderation** (spam, abuse, prompt-injection)
 - **No server-side chat history storage**
-- **Designed for limited hardware** (runs on a Raspberry Pi)
+- **Designed for limited hardware** (runs on my Home Server)
 
 AI is treated as a component, not an authority.
 
