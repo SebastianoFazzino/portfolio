@@ -1,34 +1,16 @@
 services:
-  postgres:
-    image: pgvector/pgvector:pg18
-    container_name: portfolio-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-portfolio}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - postgres:/var/lib/postgresql
-    networks:
-      - internal
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "5m"
-        max-file: "3"
-
   api:
     container_name: portfolio-api
     restart: unless-stopped
+    labels:
+      wud.watch: 'false'
     build:
       context: ./apps/api
     environment:
       ACTIVE_PROFILE: ${ACTIVE_PROFILE}
-
       POSTGRES_URL: ${POSTGRES_URL}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
       OLLAMA_MODEL: ${OLLAMA_MODEL}
       OLLAMA_RAG_GENERATION_MODEL: ${OLLAMA_RAG_GENERATION_MODEL}
@@ -40,10 +22,8 @@ services:
       OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE}
       OLLAMA_WARMUP_INTERVAL: ${OLLAMA_WARMUP_INTERVAL}
       RAG_CHUNK_SIZE: ${RAG_CHUNK_SIZE}
-
       ADMIN_API_KEY: ${ADMIN_API_KEY}
       CLIENT_API_KEY: ${CLIENT_API_KEY}
-
       BREVO_API_KEY: ${BREVO_API_KEY}
       CONTACT_TO_EMAIL: ${CONTACT_TO_EMAIL}
       CONTACT_FROM_EMAIL: ${CONTACT_FROM_EMAIL}
@@ -51,40 +31,35 @@ services:
       CONTACT_RATE_LIMIT_WINDOW_MS: ${CONTACT_RATE_LIMIT_WINDOW_MS:-60000}
       CONTACT_RATE_LIMIT_MAX: ${CONTACT_RATE_LIMIT_MAX:-10}
     ports:
-      - "9909:9909"
-    depends_on:
-      - postgres
+    - 9909:9909
     networks:
-      - internal
+    - internal
     logging:
-      driver: "json-file"
+      driver: json-file
       options:
-        max-size: "5m"
-        max-file: "3"
-
+        max-size: 5m
+        max-file: '3'
   web:
     container_name: portfolio-web
     restart: unless-stopped
+    labels:
+      wud.watch: 'false'
     build:
       context: ./apps/web
     environment:
-      BACKEND_BASE_URL: "http://api:9909/api"
+      BACKEND_BASE_URL: http://api:9909/api
       API_KEY: ${API_KEY}
     ports:
-      - "3000:3000"
+    - 3000:3000
     depends_on:
-      - api
+    - api
     networks:
-      - internal
+    - internal
     logging:
-      driver: "json-file"
+      driver: json-file
       options:
-        max-size: "5m"
-        max-file: "3"
-
-volumes:
-  postgres:
-
+        max-size: 5m
+        max-file: '3'
 networks:
   internal:
     name: internal
